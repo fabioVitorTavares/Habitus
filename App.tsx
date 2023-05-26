@@ -1,22 +1,32 @@
-import { StatusBar } from "expo-status-bar";
+import { StatusBar, setStatusBarBackgroundColor } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import Teste from "./src/Components/Teste";
+import { AppContext } from "./src/Context/AppContext";
+import ColorPicker from "./src/Components/ColorPicker/ColorPicker";
+import { useState } from "react";
 
 export default function App() {
+
+  const [appBackgroundColor, setAppBackgroundColor] = useState('#FFF');
+  
+  
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: `${appBackgroundColor}`,
+      alignItems: "center",
+      justifyContent: "center",
+      
+    },
+  });
+
   return (
-    <View style={styles.container}>
-      <Text>HABITUS</Text>
-      <Teste />
-      <StatusBar style="auto" />
-    </View>
+    <AppContext.Provider value={{ theme: "dark", color: appBackgroundColor, setColor: setAppBackgroundColor }}>
+      <View style={styles.container}>
+        <ColorPicker />
+        <StatusBar style="auto" />
+      </View>
+    </AppContext.Provider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+
