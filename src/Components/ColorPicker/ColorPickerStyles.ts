@@ -17,7 +17,6 @@ export const {container, colorOptions} = StyleSheet.create({
   colorOptions: {
     width: 50,
     height: 50,
-
     borderRadius: 8
   },
 });
