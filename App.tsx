@@ -4,7 +4,7 @@ import { AppContext } from "./src/Context/AppContext";
 import ColorPicker from "./src/Components/ColorPicker/ColorPicker";
 import { useState } from "react";
 import AddNewHabito from "./src/Screens/AddNewHabito/AddNewHabito";
-
+import Routes from "./src/Routes/Routes";
 
 export default function App() {
   const [appBackgroundColor, setAppBackgroundColor] = useState("#FFF");
@@ -26,10 +26,7 @@ export default function App() {
         setColor: setAppBackgroundColor,
       }}
     >
-      <View style={styles.container}>
-        <AddNewHabito />
-        <StatusBar style="auto" />
-      </View>
+      <Routes />
     </AppContext.Provider>
   );
 }
