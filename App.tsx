@@ -5,6 +5,7 @@ import ColorPicker from "./src/Components/ColorPicker/ColorPicker";
 import { useState } from "react";
 import AddNewHabito from "./src/Screens/AddNewHabito/AddNewHabito";
 
+
 export default function App() {
   const [appBackgroundColor, setAppBackgroundColor] = useState("#FFF");
 
