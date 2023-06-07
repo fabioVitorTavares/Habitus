@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 
-
 export const {container, colorOptions} = StyleSheet.create({
   container: {
     display: 'flex',
