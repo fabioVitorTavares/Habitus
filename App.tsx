@@ -7,6 +7,11 @@ import AddNewHabito from "./src/Screens/AddNewHabito/AddNewHabito";
 import Routes from "./src/Routes/Routes";
 
 export default function App() {
+  const [categories, setCategories] = useState<string[]>(["Esporte", "Saude"]);
+  const [categorySelected, setCategorySelected] = useState<string>(
+    categories[0]
+  );
+
   const [appBackgroundColor, setAppBackgroundColor] = useState("#FFF");
 
   const styles = StyleSheet.create({
@@ -24,6 +29,10 @@ export default function App() {
         theme: "dark",
         color: appBackgroundColor,
         setColor: setAppBackgroundColor,
+        categories,
+        setCategories,
+        categorySelected,
+        setCategorySelected,
       }}
     >
       <Routes />

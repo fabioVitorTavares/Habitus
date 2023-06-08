@@ -18,10 +18,11 @@ export default function ColorPicker() {
   );
 
   function pressOptionColor(e: GestureResponderEvent) {
-    setColor(
-      e.target._internalFiberInstanceHandleDEV.memoizedProps.style
-        .backgroundColor
-    );
+    setColor &&
+      setColor(
+        e.target._internalFiberInstanceHandleDEV.memoizedProps.style
+          .backgroundColor
+      );
   }
   return (
     <View style={container}>

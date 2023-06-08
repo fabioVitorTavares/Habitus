@@ -1,4 +1,11 @@
-import { View, Text, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  TouchableOpacity,
+} from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import {
   screen,
   textInput,
@@ -6,9 +13,14 @@ import {
   text,
   daysWeek,
 } from "./AddNewHabitoStyles";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CheckBox from "../../Components/CheckBox/CheckBox";
+import { AppContext } from "../../Context/AppContext";
+import ModalAddCategory from "../../Components/ModalAddCategory/ModalAddCategory";
+
 export default function AddNewHabito() {
+  const { categories, setCategories, categorySelected, setCategorySelected } =
+    useContext(AppContext);
   const [checkAllDays, setCheckAllDays] = useState(false);
 
   const checkDays = [
@@ -53,8 +65,33 @@ export default function AddNewHabito() {
     setCheckAllDays(!checkDays.find((day) => day.check[0] === false));
   }, [checkDays]);
 
+  const [modalAddCategoryIsOpen, setModalAddCategoryIsOpen] = useState(false);
+
   return (
     <View style={screen}>
+      <ModalAddCategory
+        open={modalAddCategoryIsOpen}
+        onClose={() => setModalAddCategoryIsOpen(false)}
+      />
+      <Picker
+        selectedValue={categorySelected}
+        style={{ height: 50, width: 150 }}
+        onValueChange={(value, index) =>
+          setCategorySelected && setCategorySelected(value)
+        }
+      >
+        {categories &&
+          categories.map((category, index) => (
+            <Picker.Item
+              key={`${category}${index}`}
+              label={category}
+              value={category}
+            />
+          ))}
+      </Picker>
+      <TouchableOpacity onPress={() => setModalAddCategoryIsOpen(true)}>
+        <Text>+</Text>
+      </TouchableOpacity>
       <View style={containerInputs}>
         <Text style={text}>Novo hábito:</Text>
         <TextInput style={textInput} />
