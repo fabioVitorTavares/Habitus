@@ -1,22 +1,11 @@
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableHighlight,
-  TouchableOpacity,
-} from "react-native";
-import { Picker } from "@react-native-picker/picker";
-import {
-  screen,
-  textInput,
-  containerInputs,
-  text,
-  daysWeek,
-} from "./AddNewHabitoStyles";
 import React, { useContext, useEffect, useState } from "react";
-import CheckBox from "../../Components/CheckBox/CheckBox";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import { styles } from "./AddNewHabitoStyles";
 import { AppContext } from "../../Context/AppContext";
+import CheckBox from "../../Components/CheckBox/CheckBox";
 import ModalAddCategory from "../../Components/ModalAddCategory/ModalAddCategory";
+import { Entypo as Icon } from "@expo/vector-icons";
 
 export default function AddNewHabito() {
   const { categories, setCategories, categorySelected, setCategorySelected } =
@@ -67,51 +56,73 @@ export default function AddNewHabito() {
 
   const [modalAddCategoryIsOpen, setModalAddCategoryIsOpen] = useState(false);
 
+  const PickerCategory = () => {
+    return (
+      <View style={styles.pickerContainer}>
+        {categories?.length ? (
+          <>
+            <Picker
+              selectedValue={categorySelected}
+              style={styles.picker}
+              onValueChange={(value, index) =>
+                setCategorySelected && setCategorySelected(value)
+              }
+            >
+              {categories &&
+                categories.map((category, index) => (
+                  <Picker.Item
+                    key={`${category}${index}`}
+                    label={category}
+                    value={category}
+                  />
+                ))}
+            </Picker>
+            <TouchableOpacity onPress={() => setModalAddCategoryIsOpen(true)}>
+              <Icon name="add-to-list" size={40} />
+            </TouchableOpacity>
+          </>
+        ) : (
+          <TouchableOpacity
+            style={styles.addCategory}
+            onPress={() => setModalAddCategoryIsOpen(true)}
+          >
+            <Text>Adicionar categoria</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    );
+  };
+
   return (
-    <View style={screen}>
+    <View style={styles.screen}>
       <ModalAddCategory
         open={modalAddCategoryIsOpen}
         onClose={() => setModalAddCategoryIsOpen(false)}
       />
-      <Picker
-        selectedValue={categorySelected}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(value, index) =>
-          setCategorySelected && setCategorySelected(value)
-        }
-      >
-        {categories &&
-          categories.map((category, index) => (
-            <Picker.Item
-              key={`${category}${index}`}
-              label={category}
-              value={category}
-            />
-          ))}
-      </Picker>
-      <TouchableOpacity onPress={() => setModalAddCategoryIsOpen(true)}>
-        <Text>+</Text>
-      </TouchableOpacity>
-      <View style={containerInputs}>
-        <Text style={text}>Novo hábito:</Text>
-        <TextInput style={textInput} />
+      <View style={styles.containerInputs}>
+        <Text style={styles.text}>Categoria:</Text>
+        <PickerCategory />
       </View>
-      <View style={containerInputs}>
-        <Text style={text}>Breve descrição:</Text>
-        <TextInput style={textInput} />
+      <View style={styles.containerInputs}>
+        <Text style={styles.text}>Novo hábito:</Text>
+        <TextInput style={styles.textInput} />
       </View>
-      <View style={containerInputs}>
-        <Text style={text}>Dias:</Text>
-        <Text style={text}>Todos</Text>
+      <View style={styles.containerInputs}>
+        <Text style={styles.text}>Breve descrição:</Text>
+        <TextInput style={styles.textInput} />
+      </View>
+      <View style={styles.containerInputs}>
+        <Text style={styles.text}>Dias:</Text>
+        <Text style={styles.text}>Todos</Text>
         <CheckBox
           checked={checkAllDays}
           setChecked={() => pressCheckAllDays()}
         />
-        <View style={daysWeek}>
+        <View style={styles.daysWeek}>
           {checkDays.map((day, index) => {
             return (
               <View key={index}>
-                <Text style={text}>{day.name}</Text>
+                <Text style={styles.text}>{day.name}</Text>
                 <CheckBox
                   checked={day.check[0]}
                   setChecked={() => day.check[1]((prev) => !prev)}

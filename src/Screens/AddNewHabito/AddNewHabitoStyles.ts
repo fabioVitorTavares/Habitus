@@ -1,7 +1,20 @@
 import { StyleSheet } from "react-native";
 
 
-export const {screen, textInput, containerInputs, text, daysWeek } = StyleSheet.create({
+const {dfajc, whcp} = StyleSheet.create({
+  dfajc: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  whcp: {
+    width: "100%",
+    height: "100%",
+  }
+});
+
+
+export const styles = StyleSheet.create({
   screen: {
     display: "flex",
     justifyContent: "flex-start",
@@ -31,5 +44,26 @@ export const {screen, textInput, containerInputs, text, daysWeek } = StyleSheet.
     display: 'flex',
     justifyContent: 'space-evenly',
     flexDirection: 'row',  
+  },
+  pickerContainer: {
+    borderWidth: 1,
+    height: 50,
+    borderRadius: 5,
+    fontSize: 16,
+    borderColor: "#0005",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    paddingHorizontal: 10
+  },
+  picker: {
+    height: 50,
+    width: "80%" 
+  },
+  addCategory: {
+    ...dfajc,
+    ...whcp,
   }
+
 });

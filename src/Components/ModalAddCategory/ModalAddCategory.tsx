@@ -1,7 +1,14 @@
 import { useContext, useState } from "react";
-import { Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Button,
+  Modal,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { AppContext } from "../../Context/AppContext";
-import { text } from "../../Screens/AddNewHabito/AddNewHabitoStyles";
+import { styles } from "./ModalAddCategoryStyles";
 
 type ModalAddCategoryTypes = {
   open: boolean;
@@ -31,42 +38,30 @@ export default function ModalAddCategory({
   };
 
   return (
-    <TouchableOpacity onPress={() => console.log("Log line 34: ")}>
-      <Modal animationType="slide" transparent={true} visible={open}>
-        <View
-          style={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#0007",
-          }}
-        >
+    <Modal animationType="slide" transparent={true} visible={open}>
+      <TouchableOpacity onPress={() => handlePressClose()}>
+        <View style={styles.modalContainer}>
           <View
-            style={{
-              backgroundColor: "#FFF",
-              width: "90%",
-              height: "25%",
-              borderRadius: 10,
-            }}
+            style={styles.modalContent}
+            onStartShouldSetResponder={(event) => true}
+            onTouchEnd={(e) => e.stopPropagation()}
           >
-            <TouchableOpacity onPress={handlePressClose}>
-              <Text>Fechar</Text>
-            </TouchableOpacity>
-            <View>
-              <Text>Nova categoria:</Text>
+            <View style={styles.containerInputs}>
+              <Text style={styles.text}>Nova categoria:</Text>
               <TextInput
+                placeholder="categoria"
+                style={styles.textInput}
                 value={newCategory}
                 onChangeText={(text) => setNewCategory(text)}
               />
             </View>
-            <TouchableOpacity onPress={handlePressAdd}>
-              <Text>adicionar</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonsContainer}>
+              <Button title="Cancelar" onPress={handlePressClose} />
+              <Button title="Adicionar" onPress={handlePressAdd} />
+            </View>
           </View>
         </View>
-      </Modal>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </Modal>
   );
 }

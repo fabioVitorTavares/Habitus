@@ -7,7 +7,7 @@ import AddNewHabito from "./src/Screens/AddNewHabito/AddNewHabito";
 import Routes from "./src/Routes/Routes";
 
 export default function App() {
-  const [categories, setCategories] = useState<string[]>(["Esporte", "Saude"]);
+  const [categories, setCategories] = useState<string[]>([]);
   const [categorySelected, setCategorySelected] = useState<string>(
     categories[0]
   );
