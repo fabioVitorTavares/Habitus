@@ -23,6 +23,4 @@ export const styles = StyleSheet.create({
   titleDay: {
     fontSize: 40,
   }
-
-
 });
