@@ -14,13 +14,8 @@ const { dfajc, whcpc } = StyleSheet.create({
 
 
 export const styles = StyleSheet.create({
-  screen: {
+  screenContainer: {
     ...dfajc,
-    ...whcpc,
-    borderWidth: 1,
-    justifyContent: 'flex-start'
-  },
-  titleDay: {
-    fontSize: 40,
-  }
+    ...whcpc   
+  }  
 });
