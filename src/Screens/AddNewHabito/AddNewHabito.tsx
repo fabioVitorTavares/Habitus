@@ -6,6 +6,7 @@ import { AppContext } from "../../Context/AppContext";
 import CheckBox from "../../Components/CheckBox/CheckBox";
 import ModalAddCategory from "../../Components/ModalAddCategory/ModalAddCategory";
 import { Entypo as Icon } from "@expo/vector-icons";
+import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
 
 export default function AddNewHabito() {
   const { categories, setCategories, categorySelected, setCategorySelected } =
@@ -94,44 +95,46 @@ export default function AddNewHabito() {
   };
 
   return (
-    <View style={styles.screen}>
-      <ModalAddCategory
-        open={modalAddCategoryIsOpen}
-        onClose={() => setModalAddCategoryIsOpen(false)}
-      />
-      <View style={styles.containerInputs}>
-        <Text style={styles.text}>Categoria:</Text>
-        <PickerCategory />
-      </View>
-      <View style={styles.containerInputs}>
-        <Text style={styles.text}>Novo hábito:</Text>
-        <TextInput style={styles.textInput} />
-      </View>
-      <View style={styles.containerInputs}>
-        <Text style={styles.text}>Breve descrição:</Text>
-        <TextInput style={styles.textInput} />
-      </View>
-      <View style={styles.containerInputs}>
-        <Text style={styles.text}>Dias:</Text>
-        <Text style={styles.text}>Todos</Text>
-        <CheckBox
-          checked={checkAllDays}
-          setChecked={() => pressCheckAllDays()}
+    <ScreenContainer>
+      <View style={styles.screen}>
+        <ModalAddCategory
+          open={modalAddCategoryIsOpen}
+          onClose={() => setModalAddCategoryIsOpen(false)}
         />
-        <View style={styles.daysWeek}>
-          {checkDays.map((day, index) => {
-            return (
-              <View key={index}>
-                <Text style={styles.text}>{day.name}</Text>
-                <CheckBox
-                  checked={day.check[0]}
-                  setChecked={() => day.check[1]((prev) => !prev)}
-                />
-              </View>
-            );
-          })}
+        <View style={styles.containerInputs}>
+          <Text style={styles.text}>Categoria:</Text>
+          <PickerCategory />
+        </View>
+        <View style={styles.containerInputs}>
+          <Text style={styles.text}>Novo hábito:</Text>
+          <TextInput style={styles.textInput} />
+        </View>
+        <View style={styles.containerInputs}>
+          <Text style={styles.text}>Breve descrição:</Text>
+          <TextInput style={styles.textInput} />
+        </View>
+        <View style={styles.containerInputs}>
+          <Text style={styles.text}>Dias:</Text>
+          <Text style={styles.text}>Todos</Text>
+          <CheckBox
+            checked={checkAllDays}
+            setChecked={() => pressCheckAllDays()}
+          />
+          <View style={styles.daysWeek}>
+            {checkDays.map((day, index) => {
+              return (
+                <View key={index}>
+                  <Text style={styles.text}>{day.name}</Text>
+                  <CheckBox
+                    checked={day.check[0]}
+                    setChecked={() => day.check[1]((prev) => !prev)}
+                  />
+                </View>
+              );
+            })}
+          </View>
         </View>
       </View>
-    </View>
+    </ScreenContainer>
   );
 }

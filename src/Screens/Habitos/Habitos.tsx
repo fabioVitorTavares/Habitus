@@ -1,5 +1,12 @@
-import { View, Text, FlatList, FlatListProps, ListRenderItem } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  FlatListProps,
+  ListRenderItem,
+} from "react-native";
 import { styles } from "./HabitosStyles";
+import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
 
 const day = [
   "Domingo",
@@ -12,17 +19,17 @@ const day = [
 ];
 
 const renderItem: ListRenderItem<string> = ({ item }) => {
-  return (
-    <Text>{item}</Text>
-  )
-}
+  return <Text>{item}</Text>;
+};
 
 export default function Habitos() {
   const currentDay = new Date().getDay();
   return (
-    <View style={styles.screen}>
-      <Text style={styles.titleDay}>{day[currentDay]}</Text>
-      <FlatList data={day} renderItem={renderItem}/>
-    </View>
+    <ScreenContainer>
+      <View style={styles.screen}>
+        <Text style={styles.titleDay}>{day[currentDay]}</Text>
+        <FlatList data={day} renderItem={renderItem} />
+      </View>
+    </ScreenContainer>
   );
 }

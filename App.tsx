@@ -12,22 +12,13 @@ export default function App() {
     categories[0]
   );
 
-  const [appBackgroundColor, setAppBackgroundColor] = useState("#FFF");
-
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: `${appBackgroundColor}`,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-  });
+  const [appBackgroundColor, setAppBackgroundColor] = useState("#090");
 
   return (
     <AppContext.Provider
       value={{
         theme: "dark",
-        color: appBackgroundColor,
+        backgroundColor: appBackgroundColor,
         setColor: setAppBackgroundColor,
         categories,
         setCategories,
