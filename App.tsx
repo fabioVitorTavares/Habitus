@@ -1,10 +1,16 @@
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends RootStackParamList {}
+  }
+}
+
 import { StatusBar, setStatusBarBackgroundColor } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { AppContext } from "./src/Context/AppContext";
 import ColorPicker from "./src/Components/ColorPicker/ColorPicker";
 import { useState } from "react";
 import AddNewHabito from "./src/Screens/AddNewHabito/AddNewHabito";
-import Routes from "./src/Routes/Routes";
+import Routes, { RootStackParamList } from "./src/Routes/Routes";
 
 export default function App() {
   const [categories, setCategories] = useState<string[]>([]);
@@ -12,7 +18,7 @@ export default function App() {
     categories[0]
   );
 
-  const [appBackgroundColor, setAppBackgroundColor] = useState("#090");
+  const [appBackgroundColor, setAppBackgroundColor] = useState("#FFF");
 
   return (
     <AppContext.Provider
