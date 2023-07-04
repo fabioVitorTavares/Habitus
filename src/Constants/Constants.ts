@@ -1,0 +1,2 @@
+
+export const optionsTouch = [7, 8, 9, 4, 5, 6, 1, 2, 3, "clearAll", 0, "clearOne"];
