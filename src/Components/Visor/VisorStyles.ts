@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
   digit: {
     width: 30,
     textAlign: 'center',
-    borderBottomWidth: 2,
+    borderBottomWidth: 2,    
     fontSize: 30,
     fontWeight: 'bold'
   }  
