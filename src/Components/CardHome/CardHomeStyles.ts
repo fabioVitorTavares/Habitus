@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-
 const { dfajc, whcpc } = StyleSheet.create({
   dfajc: {
     display: "flex",
@@ -12,18 +11,13 @@ const { dfajc, whcpc } = StyleSheet.create({
   }
 });
 
-
 export const styles = StyleSheet.create({
-  homeContainer: {
-    ...whcpc,
-    display: 'flex',
-    padding: 50,
-  },
-  cardsContainer: {
-    ...whcpc,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
+  card: {
+    height: 150,
+    width: 100,
+    ...dfajc,
+    borderRadius: 10,
+    backgroundColor: '#0005',
     borderWidth: 1
   }
 });

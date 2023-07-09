@@ -8,6 +8,8 @@ import Authenticate from "../Screens/Authenticate/Authenticate";
 export type RootStackParamList = {
   Authenticate: undefined;
   App: undefined;
+  Habitos: undefined;
+  AddNewHabito: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
