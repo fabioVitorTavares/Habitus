@@ -4,6 +4,13 @@ import Home from "../Screens/Home/Home";
 import Habitos from "../Screens/Habitos/Habitos";
 import AddNewHabito from "../Screens/AddNewHabito/AddNewHabito";
 import { Feather } from "@expo/vector-icons";
+import Configs from "../Screens/Configs/Configs";
+import {
+  IconAddNewHabitos,
+  IconConfigs,
+  IconHabitos,
+  IconHome,
+} from "../Icons/Incons";
 
 export default function TabNavigation() {
   const Tab = createBottomTabNavigator();
@@ -15,9 +22,9 @@ export default function TabNavigation() {
         component={Home}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Feather name="home" color={color} size={size} />
+            <IconHome color={color} size={size} />
           ),
-          tabBarLabel: "Home"
+          tabBarLabel: "Início",
         }}
       />
       <Tab.Screen
@@ -25,10 +32,9 @@ export default function TabNavigation() {
         component={Habitos}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Feather name="book" color={color} size={size} />
+            <IconHabitos color={color} size={size} />
           ),
-          tabBarLabel: "Hábitos"
-
+          tabBarLabel: "Hábitos",
         }}
       />
       <Tab.Screen
@@ -36,10 +42,19 @@ export default function TabNavigation() {
         component={AddNewHabito}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Feather name="plus" color={color} size={size} />
+            <IconAddNewHabitos color={color} size={size} />
           ),
-          tabBarLabel: "Add"
-
+          tabBarLabel: "Novo Hábito",
+        }}
+      />
+      <Tab.Screen
+        name="Configs"
+        component={Configs}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <IconConfigs color={color} size={size} />
+          ),
+          tabBarLabel: "Configurações",
         }}
       />
     </Tab.Navigator>
