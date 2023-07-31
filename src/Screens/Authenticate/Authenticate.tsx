@@ -2,7 +2,13 @@ import { Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { NavigationProp } from "@react-navigation/native";
 import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
-import { useContext, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import Visor from "../../Components/Visor/Visor";
 import Touchs from "../../Components/Touchs/Touchs";
 import { styles } from "./AuthenticateStyles";
@@ -16,11 +22,6 @@ export default function Authenticate({ navigation }: NavigationType) {
   const [pinDigited, setPinDigited] = useState("");
   const [pinInvalid, setPinInvalid] = useState(false);
   const { authenticateWithPin, pin } = useContext(AppContext);
-
-  // if (!authenticateWithPin) {
-  //   navigation.navigate("App");
-  //   return;
-  // }
 
   useEffect(() => {
     if (!authenticateWithPin) navigation.navigate("App");

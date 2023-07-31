@@ -13,8 +13,10 @@ Disponível para plataforma android
 
 
 
-#To do develope
+# To do develope
 
-##Load
+## Load - ok
 
-##Tela Configs
+## Tela Configs
+
+## toggle button

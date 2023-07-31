@@ -5,11 +5,14 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Dispatch, SetStateAction, useContext, useEffect } from "react";
 import { AppContext } from "../../Context/AppContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function Configs() {
-  const { authenticateWithPin, setAuthenticateWithPin } = useContext(
+  const isFocused = useIsFocused();
+  const { setLoad, authenticateWithPin, setAuthenticateWithPin } = useContext(
     AppContext
   ) as {
+    setLoad: Dispatch<SetStateAction<boolean>>;
     authenticateWithPin: boolean;
     setAuthenticateWithPin: Dispatch<SetStateAction<boolean>>;
   };
@@ -17,11 +20,22 @@ export default function Configs() {
   const storeData = async (value: boolean) => {
     try {
       await AsyncStorage.setItem("@AWP", String(value));
-      console.log("Log line 20: ", String(value));
-    } catch (e) {
-      // saving error
-    }
+    } catch (e) {}
   };
+
+  async function loadTest() {
+    setLoad(true);
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve("ok");
+      }, 2000);
+    });
+    setLoad(false);
+  }
+
+  useEffect(() => {
+    isFocused && loadTest();
+  }, [isFocused]);
 
   useEffect(() => {
     storeData(authenticateWithPin);

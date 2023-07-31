@@ -12,10 +12,7 @@ export default function Home() {
   return (
     <ScreenContainer>
       <View style={styles.homeContainer}>
-        <View
-          style={styles.cardsContainer}
-          onTouchStart={() => console.log("Log line 11: ")}
-        >
+        <View style={styles.cardsContainer}>
           <CardHome text="Hábitos" link="Habitos" Icon={IconHabitos} />
           <CardHome
             text="Adicionar"

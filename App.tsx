@@ -10,33 +10,23 @@ import { useEffect, useState } from "react";
 import Routes, { RootStackParamList } from "./src/Routes/Routes";
 
 export default function App() {
+  const [load, setLoad] = useState(false);
+  const [authenticateWithPin, setAuthenticateWithPin] = useState(true);
+  const [pin, setPin] = useState("123789");
+
   const [appBackgroundColor, setAppBackgroundColor] = useState("#FFF");
   const [categories, setCategories] = useState<string[]>([]);
   const [categorySelected, setCategorySelected] = useState<string>(
     categories[0]
   );
 
-  const [authenticateWithPin, setAuthenticateWithPin] = useState(true);
-  const [pin, setPin] = useState("123789");
-
-  const storeData = async (value: string) => {
-    try {
-      await AsyncStorage.setItem("@AWP", value);
-    } catch (e) {
-      // saving error
-    }
-  };
-
   const getData = async () => {
     try {
       const value = await AsyncStorage.getItem("@AWP");
       if (value !== null) {
-        console.log("Log line 34: ", value);
         setAuthenticateWithPin(value === "true");
       }
-    } catch (e) {
-      // error reading value
-    }
+    } catch (e) {}
   };
 
   useEffect(() => {
@@ -56,6 +46,9 @@ export default function App() {
         authenticateWithPin,
         setAuthenticateWithPin,
         pin,
+        setPin,
+        load,
+        setLoad,
       }}
     >
       <Routes />

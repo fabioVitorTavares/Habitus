@@ -21,7 +21,6 @@ export default function Routes() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={authenticateWithPin ? "Authenticate" : "App"}
         screenOptions={{
           headerShown: false,
         }}
