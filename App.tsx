@@ -18,6 +18,9 @@ export default function App() {
     categories[0]
   );
 
+  const [authenticateWithPin, setAuthenticateWithPin] = useState(false);
+  const [pin, setPin] = useState("");
+
   const [appBackgroundColor, setAppBackgroundColor] = useState("#FFF");
 
   return (
@@ -30,6 +33,8 @@ export default function App() {
         setCategories,
         categorySelected,
         setCategorySelected,
+        authenticateWithPin,
+        pin,
       }}
     >
       <Routes />
