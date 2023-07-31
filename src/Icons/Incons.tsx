@@ -2,11 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { OpaqueColorValue } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
-type IconProps = {
-  color?: string | OpaqueColorValue | undefined;
-  size?: number | undefined;
-};
+import { IconProps } from "../Types/Types";
 
 export const IconConfigs = ({ color, size }: IconProps) => (
   <Ionicons name="settings-sharp" color={color} size={size} />

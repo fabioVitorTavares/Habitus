@@ -15,12 +15,16 @@ type NavigationType = {
 export default function Authenticate({ navigation }: NavigationType) {
   const [pinDigited, setPinDigited] = useState("");
   const [pinInvalid, setPinInvalid] = useState(false);
-  const { pin } = useContext(AppContext);
+  const { authenticateWithPin, pin } = useContext(AppContext);
 
   // if (!authenticateWithPin) {
   //   navigation.navigate("App");
   //   return;
   // }
+
+  useEffect(() => {
+    if (!authenticateWithPin) navigation.navigate("App");
+  }, [authenticateWithPin]);
 
   useEffect(() => {
     if (pinDigited.length === 6) {

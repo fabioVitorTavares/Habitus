@@ -4,24 +4,44 @@ declare global {
   }
 }
 
-import { StatusBar, setStatusBarBackgroundColor } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppContext } from "./src/Context/AppContext";
-import ColorPicker from "./src/Components/ColorPicker/ColorPicker";
-import { useState } from "react";
-import AddNewHabito from "./src/Screens/AddNewHabito/AddNewHabito";
+import { useEffect, useState } from "react";
 import Routes, { RootStackParamList } from "./src/Routes/Routes";
 
 export default function App() {
+  const [appBackgroundColor, setAppBackgroundColor] = useState("#FFF");
   const [categories, setCategories] = useState<string[]>([]);
   const [categorySelected, setCategorySelected] = useState<string>(
     categories[0]
   );
 
-  const [authenticateWithPin, setAuthenticateWithPin] = useState(false);
-  const [pin, setPin] = useState("");
+  const [authenticateWithPin, setAuthenticateWithPin] = useState(true);
+  const [pin, setPin] = useState("123789");
 
-  const [appBackgroundColor, setAppBackgroundColor] = useState("#FFF");
+  const storeData = async (value: string) => {
+    try {
+      await AsyncStorage.setItem("@AWP", value);
+    } catch (e) {
+      // saving error
+    }
+  };
+
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("@AWP");
+      if (value !== null) {
+        console.log("Log line 34: ", value);
+        setAuthenticateWithPin(value === "true");
+      }
+    } catch (e) {
+      // error reading value
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <AppContext.Provider
@@ -34,6 +54,7 @@ export default function App() {
         categorySelected,
         setCategorySelected,
         authenticateWithPin,
+        setAuthenticateWithPin,
         pin,
       }}
     >

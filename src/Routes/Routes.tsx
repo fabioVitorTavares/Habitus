@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import TabNavigation from "./tab.routes";
 import { createStackNavigator } from "@react-navigation/stack";
 import Authenticate from "../Screens/Authenticate/Authenticate";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "../Context/AppContext";
 
 export type RootStackParamList = {
@@ -10,6 +10,7 @@ export type RootStackParamList = {
   App: undefined;
   Habitos: undefined;
   AddNewHabito: undefined;
+  Configs: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();

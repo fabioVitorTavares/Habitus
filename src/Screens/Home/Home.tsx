@@ -2,6 +2,11 @@ import { View, Text } from "react-native";
 import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
 import CardHome from "../../Components/CardHome/CardHome";
 import { styles } from "./HomeStyles";
+import {
+  IconAddNewHabitos,
+  IconConfigs,
+  IconHabitos,
+} from "../../Icons/Incons";
 
 export default function Home() {
   return (
@@ -11,8 +16,13 @@ export default function Home() {
           style={styles.cardsContainer}
           onTouchStart={() => console.log("Log line 11: ")}
         >
-          <CardHome text="Hábitos" link="Habitos" />
-          <CardHome text="Adicionar" link="AddNewHabito" />
+          <CardHome text="Hábitos" link="Habitos" Icon={IconHabitos} />
+          <CardHome
+            text="Adicionar"
+            link="AddNewHabito"
+            Icon={IconAddNewHabitos}
+          />
+          <CardHome text="Configurações" link="Configs" Icon={IconConfigs} />
         </View>
       </View>
     </ScreenContainer>
