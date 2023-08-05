@@ -1,22 +1,10 @@
 import { StyleSheet } from "react-native";
-
-const { dfajc, whcpc } = StyleSheet.create({
-  dfajc: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  whcpc: {
-    width: "100%",
-    height: "100%",
-  }
-});
-
+import { centerItens, fullSize } from "../../Styles/DefaultsStyles";
 
 export const styles = StyleSheet.create({
   screen: {
-    ...dfajc,
-    ...whcpc,
+    ...centerItens,
+    ...fullSize,
     borderWidth: 1,
     justifyContent: 'flex-start'
   },

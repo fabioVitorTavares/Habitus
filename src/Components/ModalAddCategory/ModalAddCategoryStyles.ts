@@ -1,23 +1,10 @@
 import { StyleSheet } from "react-native";
-
-
-const {dfajc, whcp} = StyleSheet.create({
-  dfajc: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  whcp: {
-    width: "100%",
-    height: "100%",
-  }
-});
-
+import { centerItens, fullSize } from "../../Styles/DefaultsStyles";
 
 export const styles = StyleSheet.create({
   modalContainer: {
-    ...dfajc,
-    ...whcp,
+    ...centerItens,
+    ...fullSize,
     backgroundColor: "#0007",
   },
   modalContent: {
@@ -52,5 +39,4 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
 
   }
-
 });

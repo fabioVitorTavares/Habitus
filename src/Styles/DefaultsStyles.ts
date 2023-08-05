@@ -5,7 +5,7 @@ export const {centerItens, fullSize} = StyleSheet.create({
   centerItens: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   fullSize: {
     width: '100%',
