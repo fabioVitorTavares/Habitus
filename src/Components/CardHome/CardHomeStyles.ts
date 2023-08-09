@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     width: 100,
     ...centerItens,
     borderRadius: 10,
-    backgroundColor: '#0006',
+    backgroundColor: '#0005',
     borderWidth: 1
   }
 });
