@@ -8,12 +8,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppContext } from "./src/Context/AppContext";
 import { useEffect, useState } from "react";
 import Routes, { RootStackParamList } from "./src/Routes/Routes";
+import { useWindowDimensions } from "react-native";
 
 export default function App() {
   const [load, setLoad] = useState(false);
   const [authenticateWithPin, setAuthenticateWithPin] = useState(true);
   const [pin, setPin] = useState("123789");
-
+  const { width: widthScreen, height: heightScreen } = useWindowDimensions();
   const [appBackgroundColor, setAppBackgroundColor] = useState("#FFF");
   const [categories, setCategories] = useState<string[]>([]);
   const [categorySelected, setCategorySelected] = useState<string>(
@@ -49,6 +50,8 @@ export default function App() {
         setPin,
         load,
         setLoad,
+        widthScreen,
+        heightScreen,
       }}
     >
       <Routes />

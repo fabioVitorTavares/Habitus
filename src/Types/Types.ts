@@ -14,8 +14,21 @@ export type IconProps = {
   size?: number | undefined;
 };
 
+export type NavigationTypes =  "Habitos" | "AddNewHabito" | "Configs";
+
+export type IconType = ({ color, size }: IconProps) => JSX.Element;
+
+
 export type CardPropsType = {
-  Icon: ({ color, size }: IconProps) => JSX.Element;
   text: string;
-  link: "Habitos" | "AddNewHabito" | "Configs";
+  link: NavigationTypes;
+  Icon: IconType;
+  key: string;
+};
+
+export type RendeItensCardHomeProp = {
+  item: CardPropsType;
+};
+export type SizeType = {
+  size: number;
 };

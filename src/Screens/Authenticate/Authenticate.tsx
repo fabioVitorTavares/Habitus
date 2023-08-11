@@ -24,14 +24,14 @@ export default function Authenticate({ navigation }: NavigationType) {
   const { authenticateWithPin, pin } = useContext(AppContext);
 
   useEffect(() => {
-    if (!authenticateWithPin) navigation.navigate("App");
+    if (!authenticateWithPin) navigation.navigate("Home");
   }, [authenticateWithPin]);
 
   useEffect(() => {
     if (pinDigited.length === 6) {
       if (pinDigited === pin) {
         setPinDigited("");
-        navigation.navigate("App");
+        navigation.navigate("Home");
         setPinInvalid(false);
       } else {
         setPinInvalid(true);

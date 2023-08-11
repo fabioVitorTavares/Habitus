@@ -14,4 +14,6 @@ export type AppContextType = {
   setPin?: Dispatch<SetStateAction<string>>;
   load?: boolean;
   setLoad?: Dispatch<SetStateAction<boolean>>;
+  widthScreen?: number,
+  heightScreen?: number,
 }

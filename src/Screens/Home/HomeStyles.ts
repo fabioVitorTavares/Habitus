@@ -5,13 +5,35 @@ export const styles = StyleSheet.create({
   homeContainer: {
     ...fullSize,
     display: 'flex',
-    padding: 50,
+    paddingVertical: 50,
+    gap: 20
   },
-  cardsContainer: {
-    ...fullSize,
-    display: 'flex',
+ 
+  headerHome: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    borderWidth: 1
+    alignItems: 'center',
+    marginHorizontal: 20,
+    gap: 20
+  },
+  avatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 50,
+    backgroundColor: "#0009"
+  },
+  cardTopHome: {
+    height: 160,
+    borderRadius: 10,
+    marginHorizontal: 20,
+    backgroundColor: '#0004'
+  },
+  itemSeparator: {
+    width: 20,
+    height: 20,
+  },
+  habitosList: {
+    width: '100%',
+    marginHorizontal: 20,
+    alignItems: 'center',
   }
 });

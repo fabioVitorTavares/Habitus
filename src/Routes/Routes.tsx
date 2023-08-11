@@ -1,13 +1,16 @@
 import { NavigationContainer } from "@react-navigation/native";
-import TabNavigation from "./tab.routes";
 import { createStackNavigator } from "@react-navigation/stack";
 import Authenticate from "../Screens/Authenticate/Authenticate";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { AppContext } from "../Context/AppContext";
+import Home from "../Screens/Home/Home";
+import AddNewHabito from "../Screens/AddNewHabito/AddNewHabito";
+import Configs from "../Screens/Configs/Configs";
+import Habitos from "../Screens/Habitos/Habitos";
 
 export type RootStackParamList = {
   Authenticate: undefined;
-  App: undefined;
+  Home: undefined;
   Habitos: undefined;
   AddNewHabito: undefined;
   Configs: undefined;
@@ -26,7 +29,10 @@ export default function Routes() {
         }}
       >
         <Stack.Screen name="Authenticate" component={Authenticate} />
-        <Stack.Screen name="App" component={TabNavigation} />
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Habitos" component={Habitos} />
+        <Stack.Screen name="AddNewHabito" component={AddNewHabito} />
+        <Stack.Screen name="Configs" component={Configs} />
       </Stack.Navigator>
     </NavigationContainer>
   );
