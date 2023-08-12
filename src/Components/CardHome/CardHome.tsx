@@ -9,7 +9,7 @@ export default function CardHome({ Icon, text, link }: CardPropsType) {
   const navigation = useNavigation();
 
   function IconCard({ color, size }: IconProps) {
-    return Icon({ color: "#000", size: 50 });
+    return Icon({ color, size });
   }
 
   return (
@@ -17,8 +17,8 @@ export default function CardHome({ Icon, text, link }: CardPropsType) {
       style={styles.card}
       onPress={() => navigation.navigate(link)}
     >
-      <Text>{text}</Text>
       <IconCard />
+      <Text>{text}</Text>
     </TouchableOpacity>
   );
 }

@@ -13,23 +13,44 @@ import {
   SizeType,
 } from "../../Types/Types";
 
+const sizeIconsCard = 50;
 const dataCards: CardPropsType[] = [
-  { key: "KEY0", text: "Hábitos", link: "Habitos", Icon: IconHabitos },
+  {
+    key: "KEY0",
+    text: "Hábitos",
+    link: "Habitos",
+    Icon: () => <IconHabitos color={"#006EFF"} size={sizeIconsCard} />,
+  },
   {
     key: "KEY1",
     text: "Adicionar",
     link: "AddNewHabito",
-    Icon: IconAddNewHabitos,
+    Icon: () => <IconAddNewHabitos color={"#2DB124"} size={sizeIconsCard} />,
   },
-  { key: "KEY2", text: "Configurações", link: "Configs", Icon: IconConfigs },
-  { key: "KEY3", text: "Hábitos", link: "Habitos", Icon: IconHabitos },
+  {
+    key: "KEY2",
+    text: "Configurações",
+    link: "Configs",
+    Icon: () => <IconConfigs color={"#9C00AE"} size={sizeIconsCard} />,
+  },
+  {
+    key: "KEY3",
+    text: "Hábitos",
+    link: "Habitos",
+    Icon: () => <IconHabitos color={"#006EFF"} size={sizeIconsCard} />,
+  },
   {
     key: "KEY4",
     text: "Adicionar",
     link: "AddNewHabito",
-    Icon: IconAddNewHabitos,
+    Icon: () => <IconAddNewHabitos color={"#2DB124"} size={sizeIconsCard} />,
   },
-  { key: "KEY5", text: "Configurações", link: "Configs", Icon: IconConfigs },
+  {
+    key: "KEY5",
+    text: "Configurações",
+    link: "Configs",
+    Icon: () => <IconConfigs color={"#9C00AE"} size={sizeIconsCard} />,
+  },
 ];
 
 const dataHabitos = new Array(100).fill(null).map((i, id) => {
@@ -63,6 +84,9 @@ export default function Home() {
         <View style={styles.cardTopHome}></View>
         <SafeAreaView>
           <FlatList
+            style={{
+              padding: 20,
+            }}
             horizontal
             showsHorizontalScrollIndicator={false}
             data={dataCards}
