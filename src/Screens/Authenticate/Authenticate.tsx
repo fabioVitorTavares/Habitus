@@ -25,7 +25,7 @@ export default function Authenticate({ navigation }: NavigationType) {
 
   useEffect(() => {
     if (!authenticateWithPin) navigation.navigate("Home");
-  }, [authenticateWithPin]);
+  }, []);
 
   useEffect(() => {
     if (pinDigited.length === 6) {

@@ -6,6 +6,7 @@ import { Dispatch, SetStateAction, useContext, useEffect } from "react";
 import { AppContext } from "../../Context/AppContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
+import Togle from "../../Components/Togle/Togle";
 
 export default function Configs() {
   const isFocused = useIsFocused();
@@ -28,7 +29,7 @@ export default function Configs() {
     await new Promise((resolve) => {
       setTimeout(() => {
         resolve("ok");
-      }, 2000);
+      }, 100);
     });
     setLoad(false);
   }
@@ -48,6 +49,13 @@ export default function Configs() {
           {authenticateWithPin && <Text>true</Text>}
           {!authenticateWithPin && <Text>false</Text>}
         </TouchableOpacity>
+        <View style={styles.configOptContainer}>
+          <Text>PIN de acesso aso app</Text>
+          <Togle
+            state={authenticateWithPin}
+            setState={setAuthenticateWithPin}
+          />
+        </View>
       </View>
     </ScreenContainer>
   );

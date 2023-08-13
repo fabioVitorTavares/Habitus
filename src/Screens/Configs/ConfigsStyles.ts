@@ -5,13 +5,13 @@ export const styles = StyleSheet.create({
   homeContainer: {
     ...fullSize,
     display: 'flex',
-    padding: 50,
+    paddingTop: 50,
+    paddingHorizontal: 20,
   },
-  cardsContainer: {
-    ...fullSize,
+  configOptContainer: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    borderWidth: 1
+    alignItems: 'center',
+    justifyContent: 'space-between',
   }
 });
