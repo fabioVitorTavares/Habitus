@@ -5,6 +5,6 @@
 # now=`date +"%d_%m"` 
 # mv universal.apk ${now}.apk
 # rm -rf *.apks *.pb
-
+rm *.apk
 now=`date +"%d_%m"` 
 eas build -p android --profile preview --local --output ./habitos_${now}.apk
