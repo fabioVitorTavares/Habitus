@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Modal } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { styles } from "./AddNewHabitoStyles";
 import { AppContext } from "../../Context/AppContext";
@@ -7,11 +7,81 @@ import CheckBox from "../../Components/CheckBox/CheckBox";
 import ModalAddCategory from "../../Components/ModalAddCategory/ModalAddCategory";
 import { Entypo as Icon } from "@expo/vector-icons";
 import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
+import DatePicker from "../../../node_modules/react-native-modern-datepicker";
+
+type DataPickerProps = {
+  open: boolean;
+  close: () => void;
+};
+const BasicUsage = ({ open, close }: DataPickerProps) => {
+  const [selectedDate, setSelectedDate] = useState("");
+
+  return (
+    <Modal visible={open} transparent>
+      <View
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <DatePicker
+          configs={{
+            dayNames: [
+              "Domingo",
+              "Segunda",
+              "Terça",
+              "Quarta",
+              "Quinta",
+              "Sexta",
+              "Sabado",
+            ],
+            dayNamesShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"],
+            monthNames: [
+              "Janeiro",
+              "Fevereiro",
+              "Março",
+              "Abril",
+              "Maio",
+              "Junho",
+              "Julho",
+              "Agosto",
+              "Setembro",
+              "Outubro",
+              "Novembro",
+              "Dezembro",
+            ],
+          }}
+          minimumDate="2023/08/15"
+          options={{
+            mainColor: "#292167",
+          }}
+          onSelectedChange={(date: any) => setSelectedDate(date)}
+          mode="datepicker"
+          onDateChange={(date: string) => {
+            console.log("Log line 31: ", date);
+            setTimeout(() => {
+              close();
+            }, 2000);
+          }}
+          style={{
+            width: "90%",
+            borderRadius: 10,
+          }}
+        />
+      </View>
+    </Modal>
+  );
+};
 
 export default function AddNewHabito() {
   const { categories, setCategories, categorySelected, setCategorySelected } =
     useContext(AppContext);
   const [checkAllDays, setCheckAllDays] = useState(false);
+
+  const [modalOpen, setModalOpen] = useState(false);
 
   const checkDays = [
     {
@@ -113,6 +183,10 @@ export default function AddNewHabito() {
           <Text style={styles.text}>Breve descrição:</Text>
           <TextInput style={styles.textInput} />
         </View>
+        <TouchableOpacity onPress={() => setModalOpen(true)}>
+          <Text>Open</Text>
+        </TouchableOpacity>
+        <BasicUsage open={modalOpen} close={() => setModalOpen(false)} />
         <View style={styles.containerInputs}>
           <Text style={styles.text}>Dias:</Text>
           <Text style={styles.text}>Todos</Text>
