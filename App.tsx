@@ -10,6 +10,7 @@ import { AppContext } from "./src/Context/AppContext";
 import { useCallback, useEffect, useState } from "react";
 import Routes, { RootStackParamList } from "./src/Routes/Routes";
 import { useWindowDimensions } from "react-native";
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [load, setLoad] = useState(false);
@@ -48,6 +49,7 @@ export default function App() {
         }
       } else {
         setAuth(true);
+        await SplashScreen.hideAsync();
       }
     } catch (e) {}
   }, [auth]);
