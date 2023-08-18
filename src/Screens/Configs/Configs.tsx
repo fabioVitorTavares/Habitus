@@ -1,7 +1,6 @@
 import { View, Text } from "react-native";
 import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
 import { styles } from "./ConfigsStyles";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { Dispatch, SetStateAction, useContext, useEffect } from "react";
 import { AppContext } from "../../Context/AppContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -10,17 +9,16 @@ import Togle from "../../Components/Togle/Togle";
 
 export default function Configs() {
   const isFocused = useIsFocused();
-  const { setLoad, authenticateWithPin, setAuthenticateWithPin } = useContext(
-    AppContext
-  ) as {
-    setLoad: Dispatch<SetStateAction<boolean>>;
-    authenticateWithPin: boolean;
-    setAuthenticateWithPin: Dispatch<SetStateAction<boolean>>;
-  };
+  const { setLoad, requireAuthetication, setRequireAuthentication } =
+    useContext(AppContext) as {
+      setLoad: Dispatch<SetStateAction<boolean>>;
+      requireAuthetication: boolean;
+      setRequireAuthentication: Dispatch<SetStateAction<boolean>>;
+    };
 
   const storeData = async (value: boolean) => {
     try {
-      await AsyncStorage.setItem("@AWP", String(value));
+      await AsyncStorage.setItem("requireAuthentication", String(value));
     } catch (e) {}
   };
 
@@ -39,21 +37,17 @@ export default function Configs() {
   }, [isFocused]);
 
   useEffect(() => {
-    storeData(authenticateWithPin);
-  }, [authenticateWithPin]);
+    storeData(requireAuthetication);
+  }, [requireAuthetication]);
 
   return (
     <ScreenContainer>
       <View style={styles.homeContainer}>
-        <TouchableOpacity onPress={() => setAuthenticateWithPin((p) => !p)}>
-          {authenticateWithPin && <Text>true</Text>}
-          {!authenticateWithPin && <Text>false</Text>}
-        </TouchableOpacity>
         <View style={styles.configOptContainer}>
-          <Text>PIN de acesso aso app</Text>
+          <Text>Acesso com senha do aparelho</Text>
           <Togle
-            state={authenticateWithPin}
-            setState={setAuthenticateWithPin}
+            state={requireAuthetication}
+            setState={setRequireAuthentication}
           />
         </View>
       </View>

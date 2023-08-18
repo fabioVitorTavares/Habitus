@@ -8,10 +8,8 @@ export type AppContextType = {
   setCategories?: Dispatch<SetStateAction<string[]>>;
   categorySelected?: string;
   setCategorySelected?: Dispatch<SetStateAction<string>>;
-  authenticateWithPin?: boolean;
-  setAuthenticateWithPin?: Dispatch<SetStateAction<boolean>>;
-  pin?: string,
-  setPin?: Dispatch<SetStateAction<string>>;
+  requireAuthetication?: boolean;
+  setRequireAuthentication?: Dispatch<SetStateAction<boolean>>;
   load?: boolean;
   setLoad?: Dispatch<SetStateAction<boolean>>;
   widthScreen?: number,

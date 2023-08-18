@@ -3,18 +3,20 @@ declare global {
     interface RootParamList extends RootStackParamList {}
   }
 }
+import * as SplashScreen from "expo-splash-screen";
 import * as LocalAuthentication from "expo-local-authentication";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppContext } from "./src/Context/AppContext";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Routes, { RootStackParamList } from "./src/Routes/Routes";
 import { useWindowDimensions } from "react-native";
 
 export default function App() {
   const [load, setLoad] = useState(false);
-  const [authenticateWithPin, setAuthenticateWithPin] = useState(true);
-  const [pin, setPin] = useState("123789");
+  const [requireAuthetication, setRequireAuthentication] = useState(false);
+  const [auth, setAuth] = useState(false);
   const { width: widthScreen, height: heightScreen } = useWindowDimensions();
+
   const [appBackgroundColor, setAppBackgroundColor] = useState("#FFF");
   const [categories, setCategories] = useState<string[]>([]);
   const [categorySelected, setCategorySelected] = useState<string>(
@@ -22,24 +24,39 @@ export default function App() {
   );
 
   const getData = async () => {
-    try {
-      const value = await AsyncStorage.getItem("@AWP");
-      if (value !== null) {
-        setAuthenticateWithPin(value === "true");
-      }
-    } catch (e) {}
+    const value = await AsyncStorage.getItem("requireAuthentication");
+    const reqAuth =
+      typeof value !== "string" ? false : Boolean(JSON.parse(value));
+    setRequireAuthentication(reqAuth);
+    return reqAuth;
   };
 
   useEffect(() => {
     checkAuthentication();
-    getData();
   }, []);
 
-  async function checkAuthentication() {
-    const auth = await LocalAuthentication.authenticateAsync({
-      fallbackLabel: "ok",
-    });
-    console.log("Log line 39: ", auth);
+  const checkAuthentication = useCallback(async () => {
+    try {
+      const requireAutheticationCache = await getData();
+      console.log("Log line 40: ", {
+        a: Boolean(JSON.parse(requireAutheticationCache as unknown as string)),
+      });
+      if (requireAutheticationCache) {
+        const { success } = await LocalAuthentication.authenticateAsync({
+          promptMessage: "Autenticação para acessar o app",
+        });
+        if (success) {
+          await SplashScreen.hideAsync();
+          setAuth(true);
+        }
+      } else {
+        setAuth(true);
+      }
+    } catch (e) {}
+  }, [auth]);
+
+  if (!auth) {
+    return null;
   }
 
   return (
@@ -52,10 +69,8 @@ export default function App() {
         setCategories,
         categorySelected,
         setCategorySelected,
-        authenticateWithPin,
-        setAuthenticateWithPin,
-        pin,
-        setPin,
+        requireAuthetication,
+        setRequireAuthentication,
         load,
         setLoad,
         widthScreen,
