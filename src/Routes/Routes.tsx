@@ -17,8 +17,6 @@ export type RootStackParamList = {
 const Stack = createStackNavigator<RootStackParamList>();
 
 export default function Routes() {
-  const { authenticateWithPin } = useContext(AppContext);
-
   return (
     <NavigationContainer>
       <Stack.Navigator
