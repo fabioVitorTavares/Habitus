@@ -3,7 +3,7 @@ declare global {
     interface RootParamList extends RootStackParamList {}
   }
 }
-
+import * as LocalAuthentication from "expo-local-authentication";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppContext } from "./src/Context/AppContext";
 import { useEffect, useState } from "react";
@@ -31,8 +31,16 @@ export default function App() {
   };
 
   useEffect(() => {
+    checkAuthentication();
     getData();
   }, []);
+
+  async function checkAuthentication() {
+    const auth = await LocalAuthentication.authenticateAsync({
+      fallbackLabel: "ok",
+    });
+    console.log("Log line 39: ", auth);
+  }
 
   return (
     <AppContext.Provider

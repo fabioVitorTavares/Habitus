@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#362FD9"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -31,6 +29,14 @@
       "eas": {
         "projectId": "e0d2ced7-82e4-49ce-909a-b51a264c616d"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID."
+        }
+      ]
+    ]
   }
 }
