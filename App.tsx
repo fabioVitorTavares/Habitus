@@ -38,9 +38,6 @@ export default function App() {
   const checkAuthentication = useCallback(async () => {
     try {
       const requireAutheticationCache = await getData();
-      console.log("Log line 40: ", {
-        a: Boolean(JSON.parse(requireAutheticationCache as unknown as string)),
-      });
       if (requireAutheticationCache) {
         const { success } = await LocalAuthentication.authenticateAsync({
           promptMessage: "Autenticação para acessar o app",
