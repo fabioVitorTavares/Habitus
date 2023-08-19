@@ -117,12 +117,14 @@ function ItemListHabitos({ habito, pkey }: { habito: string; pkey: string }) {
     Record<string, number>
   >({
     onStart: (event, context) => {
+      console.log("Log line 120: ", translateY.value);
+      console.log("Log line 123: ", context.translateY);
       context.translateY = translateY.value;
     },
     onActive: (event, context) => {
       translateY.value = event.translationY + context.translateY;
     },
-    onEnd: async (event, context) => {
+    onEnd: (event, context) => {
       const rest = (event.translationY + context.translateY) % 60;
       const cont = ((event.translationY + context.translateY) / 60) | 0;
       translateY.value =
@@ -134,10 +136,16 @@ function ItemListHabitos({ habito, pkey }: { habito: string; pkey: string }) {
           ? (cont - 1) * 60
           : cont * 60;
     },
+    onFinish: (event, context) => {
+      console.log("Log line 142: finish");
+      console.log("Log line 120: ", translateY.value);
+      console.log("Log line 123: ", context.translateY);
+      context.translateY = translateY.value;
+    },
   });
 
   return (
-    <PanGestureHandler onGestureEvent={onDrag} activateAfterLongPress={1000}>
+    <PanGestureHandler onGestureEvent={onDrag} activateAfterLongPress={500}>
       <AnimatedTouchable style={[containerStyle, styles.itemListHabitos]}>
         <TapGestureHandler>
           <View style={styles.itemListHabitos}>
@@ -160,10 +168,6 @@ export default function Home() {
   }: RenderItemListHabitosProps) {
     return <ItemListHabitos habito={habito} pkey={key} key={key} />;
   }
-
-  useEffect(() => {
-    console.log("Log line 158: ");
-  }, [refFlatListHabitos.current]);
 
   return (
     <ScreenContainer>
