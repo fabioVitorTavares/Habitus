@@ -169,12 +169,12 @@ export default function Home() {
     <ScreenContainer>
       <View style={styles.homeContainer}>
         <View style={styles.headerHome}>
-          <Image
+          {/* <Image
             style={styles.avatar}
             source={{
               uri: "https://avatars.githubusercontent.com/u/74937496?s=96&v=4",
             }}
-          />
+          /> */}
           <Text>Usuário</Text>
         </View>
         <View style={styles.cardTopHome}></View>
