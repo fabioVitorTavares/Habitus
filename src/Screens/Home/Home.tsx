@@ -99,7 +99,7 @@ function ItemSeparator({ size }: SizeType) {
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
-function ItemListHabitos({ habito }: { habito: string }) {
+function ItemListHabitos({ habito, pkey }: { habito: string; pkey: string }) {
   const translateY = useSharedValue(0);
 
   const containerStyle = useAnimatedStyle(() => {
@@ -122,8 +122,17 @@ function ItemListHabitos({ habito }: { habito: string }) {
     onActive: (event, context) => {
       translateY.value = event.translationY + context.translateY;
     },
-    onEnd(event, context) {
-      // console.log("Log line 123: ", "end");
+    onEnd: async (event, context) => {
+      const rest = (event.translationY + context.translateY) % 60;
+      const cont = ((event.translationY + context.translateY) / 60) | 0;
+      translateY.value =
+        rest > 0
+          ? rest > 30
+            ? (cont + 1) * 60
+            : cont * 60
+          : rest < -30
+          ? (cont - 1) * 60
+          : cont * 60;
     },
   });
 
@@ -149,8 +158,12 @@ export default function Home() {
   function renderItemListHabitos({
     item: { habito, key },
   }: RenderItemListHabitosProps) {
-    return <ItemListHabitos habito={habito} key={key} />;
+    return <ItemListHabitos habito={habito} pkey={key} key={key} />;
   }
+
+  useEffect(() => {
+    console.log("Log line 158: ");
+  }, [refFlatListHabitos.current]);
 
   return (
     <ScreenContainer>
@@ -181,18 +194,6 @@ export default function Home() {
             )}
           />
         </SafeAreaView>
-        <Button
-          title="ok"
-          onPress={() => {
-            if (refFlatListHabitos.current) {
-              console.log(
-                "Log line 178: ",
-                // Object.keys(refFlatListHabitos.current._listRef._cellRefs),
-                refFlatListHabitos.current
-              );
-            }
-          }}
-        />
         <SafeAreaView style={styles.habitosList}>
           <FlatList
             ref={refFlatListHabitos}
