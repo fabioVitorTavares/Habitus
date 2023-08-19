@@ -3,13 +3,15 @@ declare global {
     interface RootParamList extends RootStackParamList {}
   }
 }
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as SplashScreen from "expo-splash-screen";
 import * as LocalAuthentication from "expo-local-authentication";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppContext } from "./src/Context/AppContext";
 import { useCallback, useEffect, useState } from "react";
 import Routes, { RootStackParamList } from "./src/Routes/Routes";
-import { useWindowDimensions } from "react-native";
+import { StyleSheet, useWindowDimensions } from "react-native";
+import { fullSize } from "./src/Styles/DefaultsStyles";
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
@@ -58,25 +60,33 @@ export default function App() {
     return null;
   }
 
+  const { appStyleContainer } = StyleSheet.create({
+    appStyleContainer: {
+      ...fullSize,
+    },
+  });
+
   return (
-    <AppContext.Provider
-      value={{
-        theme: "dark",
-        backgroundColor: appBackgroundColor,
-        setColor: setAppBackgroundColor,
-        categories,
-        setCategories,
-        categorySelected,
-        setCategorySelected,
-        requireAuthetication,
-        setRequireAuthentication,
-        load,
-        setLoad,
-        widthScreen,
-        heightScreen,
-      }}
-    >
-      <Routes />
-    </AppContext.Provider>
+    <GestureHandlerRootView style={appStyleContainer}>
+      <AppContext.Provider
+        value={{
+          theme: "dark",
+          backgroundColor: appBackgroundColor,
+          setColor: setAppBackgroundColor,
+          categories,
+          setCategories,
+          categorySelected,
+          setCategorySelected,
+          requireAuthetication,
+          setRequireAuthentication,
+          load,
+          setLoad,
+          widthScreen,
+          heightScreen,
+        }}
+      >
+        <Routes />
+      </AppContext.Provider>
+    </GestureHandlerRootView>
   );
 }

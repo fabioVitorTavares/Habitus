@@ -32,3 +32,12 @@ export type RendeItensCardHomeProp = {
 export type SizeType = {
   size: number;
 };
+
+export type HabitoKeyStringType = {
+  habito: string;
+  key: string;
+}
+
+export type RenderItemListHabitosProps = {
+  item: HabitoKeyStringType;
+};
