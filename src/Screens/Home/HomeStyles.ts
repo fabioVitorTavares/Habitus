@@ -33,7 +33,19 @@ export const styles = StyleSheet.create({
   },
   habitosList: {
     width: '100%',
-    marginHorizontal: 20,
     alignItems: 'center',
+    paddingHorizontal: 20
+    
+  },
+  flatListHabitos: {
+    width: "100%" ,
+    
+  },
+  itemListHabitos: {
+    ...centerItens,
+    width: '100%',    
+    height: 50,
+    borderRadius: 8,
+    backgroundColor: '#0005',
   }
 });

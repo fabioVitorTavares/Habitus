@@ -1,4 +1,13 @@
-import { View, Text, FlatList, SafeAreaView, Image } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  SafeAreaView,
+  Image,
+  TouchableOpacity,
+  Button,
+  FlatListProps,
+} from "react-native";
 import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
 import CardHome from "../../Components/CardHome/CardHome";
 import { styles } from "./HomeStyles";
@@ -9,9 +18,29 @@ import {
 } from "../../Icons/Incons";
 import {
   CardPropsType,
+  HabitoKeyStringType,
   RendeItensCardHomeProp,
+  RenderItemListHabitosProps,
   SizeType,
 } from "../../Types/Types";
+import {
+  GestureEvent,
+  GestureEventPayload,
+  GestureHandlerGestureEvent,
+  PanGestureHandler,
+  PanGestureHandlerEventPayload,
+  TapGestureHandler,
+} from "react-native-gesture-handler";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  useAnimatedGestureHandler,
+  withSpring,
+  GestureHandlers,
+} from "react-native-reanimated";
+import { Context } from "react-native-reanimated/lib/types/lib/reanimated2/hook/commonTypes";
+import { HandlerCallbacks } from "react-native-gesture-handler/lib/typescript/handlers/gestures/gesture";
+import { LegacyRef, RefObject, useEffect, useRef, useState } from "react";
 
 const sizeIconsCard = 50;
 const dataCards: CardPropsType[] = [
@@ -68,7 +97,61 @@ function ItemSeparator({ size }: SizeType) {
   );
 }
 
+const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
+
+function ItemListHabitos({ habito }: { habito: string }) {
+  const translateY = useSharedValue(0);
+
+  const containerStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateY: translateY.value,
+        },
+      ],
+    };
+  });
+
+  const onDrag = useAnimatedGestureHandler<
+    GestureEvent<PanGestureHandlerEventPayload>,
+    Record<string, number>
+  >({
+    onStart: (event, context) => {
+      context.translateY = translateY.value;
+    },
+    onActive: (event, context) => {
+      translateY.value = event.translationY + context.translateY;
+    },
+    onEnd(event, context) {
+      // console.log("Log line 123: ", "end");
+    },
+  });
+
+  return (
+    <PanGestureHandler onGestureEvent={onDrag} activateAfterLongPress={1000}>
+      <AnimatedTouchable style={[containerStyle, styles.itemListHabitos]}>
+        <TapGestureHandler>
+          <View style={styles.itemListHabitos}>
+            <Text>{habito}</Text>
+          </View>
+        </TapGestureHandler>
+      </AnimatedTouchable>
+    </PanGestureHandler>
+  );
+}
+
 export default function Home() {
+  const refFlatListHabitos = useRef<
+    FlatList<{ habito: string; key: string }> &
+      Readonly<FlatListProps<{ habito: string; key: string }>>
+  >(null);
+
+  function renderItemListHabitos({
+    item: { habito, key },
+  }: RenderItemListHabitosProps) {
+    return <ItemListHabitos habito={habito} key={key} />;
+  }
+
   return (
     <ScreenContainer>
       <View style={styles.homeContainer}>
@@ -98,19 +181,26 @@ export default function Home() {
             )}
           />
         </SafeAreaView>
+        <Button
+          title="ok"
+          onPress={() => {
+            if (refFlatListHabitos.current) {
+              console.log(
+                "Log line 178: ",
+                // Object.keys(refFlatListHabitos.current._listRef._cellRefs),
+                refFlatListHabitos.current
+              );
+            }
+          }}
+        />
         <SafeAreaView style={styles.habitosList}>
           <FlatList
+            ref={refFlatListHabitos}
+            style={styles.flatListHabitos}
             data={dataHabitos}
             ItemSeparatorComponent={() => <ItemSeparator size={10} />}
-            renderItem={({
-              item: { habito, key },
-            }: {
-              item: { habito: string; key: string };
-            }) => (
-              <View key={key}>
-                <Text>{habito}</Text>
-              </View>
-            )}
+            renderItem={renderItemListHabitos}
+            showsVerticalScrollIndicator={false}
           />
         </SafeAreaView>
       </View>
