@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Button,
   FlatListProps,
+  ScrollView,
 } from "react-native";
 import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
 import CardHome from "../../Components/CardHome/CardHome";
@@ -117,8 +118,6 @@ function ItemListHabitos({ habito, pkey }: { habito: string; pkey: string }) {
     Record<string, number>
   >({
     onStart: (event, context) => {
-      console.log("Log line 120: ", translateY.value);
-      console.log("Log line 123: ", context.translateY);
       context.translateY = translateY.value;
     },
     onActive: (event, context) => {
@@ -136,19 +135,13 @@ function ItemListHabitos({ habito, pkey }: { habito: string; pkey: string }) {
           ? (cont - 1) * 60
           : cont * 60;
     },
-    onFinish: (event, context) => {
-      console.log("Log line 142: finish");
-      console.log("Log line 120: ", translateY.value);
-      console.log("Log line 123: ", context.translateY);
-      context.translateY = translateY.value;
-    },
   });
 
   return (
     <PanGestureHandler onGestureEvent={onDrag} activateAfterLongPress={500}>
       <AnimatedTouchable style={[containerStyle, styles.itemListHabitos]}>
         <TapGestureHandler>
-          <View style={styles.itemListHabitos}>
+          <View>
             <Text>{habito}</Text>
           </View>
         </TapGestureHandler>
@@ -162,12 +155,6 @@ export default function Home() {
     FlatList<{ habito: string; key: string }> &
       Readonly<FlatListProps<{ habito: string; key: string }>>
   >(null);
-
-  function renderItemListHabitos({
-    item: { habito, key },
-  }: RenderItemListHabitosProps) {
-    return <ItemListHabitos habito={habito} pkey={key} key={key} />;
-  }
 
   return (
     <ScreenContainer>
@@ -199,14 +186,23 @@ export default function Home() {
           />
         </SafeAreaView>
         <SafeAreaView style={styles.habitosList}>
-          <FlatList
+          <ScrollView
+            style={styles.flatListHabitos}
+            showsVerticalScrollIndicator={false}
+          >
+            {dataHabitos.map((item, index) => {
+              const { habito, key } = item;
+              return <ItemListHabitos habito={habito} pkey={key} key={key} />;
+            })}
+          </ScrollView>
+          {/* <FlatList
             ref={refFlatListHabitos}
             style={styles.flatListHabitos}
             data={dataHabitos}
             ItemSeparatorComponent={() => <ItemSeparator size={10} />}
             renderItem={renderItemListHabitos}
             showsVerticalScrollIndicator={false}
-          />
+          /> */}
         </SafeAreaView>
       </View>
     </ScreenContainer>
