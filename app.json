@@ -4,8 +4,11 @@
     "slug": "Habitus",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "icon": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#362FD9"
+    },
     "splash": {
       "image": "./assets/splashv2.png",
       "resizeMode": "contain",
@@ -17,7 +20,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.fabio.furtado.Habitus"
