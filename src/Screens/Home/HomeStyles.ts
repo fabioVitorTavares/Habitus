@@ -7,8 +7,7 @@ export const styles = StyleSheet.create({
     display: 'flex',
     paddingVertical: 50,
     gap: 20
-  },
- 
+  }, 
   headerHome: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -27,21 +26,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 20,
     backgroundColor: '#0004'
   },
-  itemSeparator: {
-    width: 20,
-    height: 20,
-  },
-  habitosList: {
-    width: '100%',
-    alignItems: 'center',
-    paddingHorizontal: 20
-    
-  },
-  flatListHabitos: {
-    width: "100%" ,
-    
-  },
-  itemListHabitos: {
+   itemListHabitos: {
     ...centerItens,
     width: '100%',    
     height: 50,

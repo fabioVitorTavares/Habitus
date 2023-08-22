@@ -42,6 +42,7 @@ import Animated, {
 import { Context } from "react-native-reanimated/lib/types/lib/reanimated2/hook/commonTypes";
 import { HandlerCallbacks } from "react-native-gesture-handler/lib/typescript/handlers/gestures/gesture";
 import { LegacyRef, RefObject, useEffect, useRef, useState } from "react";
+import DynamicList from "../../Components/DynamicList/DynamicList";
 
 const sizeIconsCard = 50;
 const dataCards: CardPropsType[] = [
@@ -98,55 +99,13 @@ function ItemSeparator({ size }: SizeType) {
   );
 }
 
-const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
-
-function ItemListHabitos({ habito, pkey }: { habito: string; pkey: string }) {
-  const translateY = useSharedValue(0);
-
-  const containerStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          translateY: translateY.value,
-        },
-      ],
-    };
-  });
-
-  const onDrag = useAnimatedGestureHandler<
-    GestureEvent<PanGestureHandlerEventPayload>,
-    Record<string, number>
-  >({
-    onStart: (event, context) => {
-      context.translateY = translateY.value;
-    },
-    onActive: (event, context) => {
-      translateY.value = event.translationY + context.translateY;
-    },
-    onEnd: (event, context) => {
-      const rest = (event.translationY + context.translateY) % 60;
-      const cont = ((event.translationY + context.translateY) / 60) | 0;
-      translateY.value =
-        rest > 0
-          ? rest > 30
-            ? (cont + 1) * 60
-            : cont * 60
-          : rest < -30
-          ? (cont - 1) * 60
-          : cont * 60;
-    },
-  });
-
+function ItemListHabitos({
+  item: { habito, key },
+}: RenderItemListHabitosProps) {
   return (
-    <PanGestureHandler onGestureEvent={onDrag} activateAfterLongPress={500}>
-      <AnimatedTouchable style={[containerStyle, styles.itemListHabitos]}>
-        <TapGestureHandler>
-          <View>
-            <Text>{habito}</Text>
-          </View>
-        </TapGestureHandler>
-      </AnimatedTouchable>
-    </PanGestureHandler>
+    <View key={key} style={styles.itemListHabitos}>
+      <Text>{habito}</Text>
+    </View>
   );
 }
 
@@ -160,12 +119,6 @@ export default function Home() {
     <ScreenContainer>
       <View style={styles.homeContainer}>
         <View style={styles.headerHome}>
-          {/* <Image
-            style={styles.avatar}
-            source={{
-              uri: "https://avatars.githubusercontent.com/u/74937496?s=96&v=4",
-            }}
-          /> */}
           <Text>Usuário</Text>
         </View>
         <View style={styles.cardTopHome}></View>
@@ -185,17 +138,7 @@ export default function Home() {
             )}
           />
         </SafeAreaView>
-        <SafeAreaView style={styles.habitosList}>
-          <ScrollView
-            style={styles.flatListHabitos}
-            showsVerticalScrollIndicator={false}
-          >
-            {dataHabitos.map((item, index) => {
-              const { habito, key } = item;
-              return <ItemListHabitos habito={habito} pkey={key} key={key} />;
-            })}
-          </ScrollView>
-        </SafeAreaView>
+        <DynamicList data={dataHabitos} RenderItens={ItemListHabitos} />
       </View>
     </ScreenContainer>
   );
