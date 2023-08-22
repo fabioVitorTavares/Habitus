@@ -4,11 +4,7 @@
     "slug": "Habitus",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": {
-      "image": "./assets/icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#362FD9"
-    },
+    "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splashv2.png",
       "resizeMode": "contain",

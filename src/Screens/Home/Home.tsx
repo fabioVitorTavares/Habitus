@@ -195,14 +195,6 @@ export default function Home() {
               return <ItemListHabitos habito={habito} pkey={key} key={key} />;
             })}
           </ScrollView>
-          {/* <FlatList
-            ref={refFlatListHabitos}
-            style={styles.flatListHabitos}
-            data={dataHabitos}
-            ItemSeparatorComponent={() => <ItemSeparator size={10} />}
-            renderItem={renderItemListHabitos}
-            showsVerticalScrollIndicator={false}
-          /> */}
         </SafeAreaView>
       </View>
     </ScreenContainer>
