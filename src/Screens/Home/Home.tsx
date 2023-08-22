@@ -110,11 +110,6 @@ function ItemListHabitos({
 }
 
 export default function Home() {
-  const refFlatListHabitos = useRef<
-    FlatList<{ habito: string; key: string }> &
-      Readonly<FlatListProps<{ habito: string; key: string }>>
-  >(null);
-
   return (
     <ScreenContainer>
       <View style={styles.homeContainer}>
