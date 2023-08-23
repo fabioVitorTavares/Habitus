@@ -116,11 +116,31 @@ type DynamicListT<T> = {
 
 export default function DynamicList<T>({ data, RenderItens }: DynamicListT<T>) {
   const translatesYs = useRef<SharedValue<number>[]>([]);
-  data.map((item, index) => translatesYs.current.push(useSharedValue(0)));
+  data.map(() => translatesYs.current.push(useSharedValue(0)));
   const [updating, setUpdating] = useState(false);
 
+  function swap(index: number, value: number) {
+    translatesYs.current[index].value = Number(0);
+    console.log("Log line 124: ", translatesYs.current[index]);
+    const dest = index + ((value / 60) | 0);
+    const aux = data[dest];
+    data[dest] = data[index];
+    data[index] = aux;
+    // const { value: auxValue } = translatesYs.current[dest];
+    // if (auxValue > 0) {
+    //   swap(dest, auxValue);
+    // }
+    console.log("Log line 132: ", index, value, translatesYs.current);
+  }
+
   useEffect(() => {
-    console.log("Log line 113: ", updating);
+    translatesYs.current.map((item, index) => {
+      const { value } = item;
+      if (value != 0) {
+        swap(index, value);
+      }
+    });
+    // console.log("Log line 142: ", translatesYs.current);
   }, [updating]);
 
   return (
