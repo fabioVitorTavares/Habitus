@@ -21,13 +21,18 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import { Touchable } from "react-native";
 
+type infoItensType = {
+  absolutePosition: SharedValue<number>;
+  currentIndex: SharedValue<number>;
+  translatesYsIndex: number;
+};
 type RenderItensListT<T> = {
   item: T;
   RenderItens: ({ item }: { item: T }) => JSX.Element;
   translateYSharedValue: SharedValue<number>;
   index: number;
   allTranslateSharedValues: SharedValue<number>[];
-  updating: Dispatch<SetStateAction<boolean>>;
+  infoItens: infoItensType[];
 };
 
 function RenderItensList<T>({
@@ -36,7 +41,7 @@ function RenderItensList<T>({
   translateYSharedValue,
   index,
   allTranslateSharedValues,
-  updating,
+  infoItens,
 }: RenderItensListT<T>) {
   const AnimatedTouchable = Animated.createAnimatedComponent(View);
   const translateY = translateYSharedValue;
@@ -51,11 +56,6 @@ function RenderItensList<T>({
     };
   });
 
-  function updateListPositions() {
-    "worklet";
-    updating((p) => !p);
-  }
-
   const onDrag = useAnimatedGestureHandler<
     GestureEvent<PanGestureHandlerEventPayload>,
     Record<string, number>
@@ -66,23 +66,48 @@ function RenderItensList<T>({
     onActive: (event, context) => {
       const heightComponent = 60;
       const deltaY = (event.translationY / heightComponent) | 0;
+      // console.log("Log line 64: ", infoItens[index], event.translationY);
+
+      const currentItem = infoItens.find(
+        (item) => item.translatesYsIndex === index
+      ) as infoItensType;
+
+      const i = infoItens.find(
+        (item) => item.currentIndex.value === currentItem.currentIndex.value + 1
+      ) as infoItensType;
 
       if (
-        event.translationY > deltaY * heightComponent + 40 &&
-        allTranslateSharedValues[deltaY + 1 + index].value === 0
+        event.translationY + currentItem.currentIndex.value * 60 >
+        i.absolutePosition.value - 20
       ) {
-        allTranslateSharedValues[deltaY + 1 + index].value -= heightComponent;
+        if (i) {
+          allTranslateSharedValues[i.translatesYsIndex].value =
+            infoItens[index].absolutePosition.value - i.absolutePosition.value;
+
+          i.currentIndex.value -= 1;
+          i.absolutePosition.value -= heightComponent;
+
+          infoItens[index].absolutePosition.value += heightComponent;
+          infoItens[index].currentIndex.value += 1;
+          console.log("Log line 85: ", infoItens[index]);
+          console.log("Log line 74: ", i);
+        }
       }
-      if (
-        event.translationY < deltaY * heightComponent - 40 &&
-        allTranslateSharedValues[index + deltaY - 1].value === 0
-      ) {
-        allTranslateSharedValues[index + deltaY - 1].value += heightComponent;
-      }
+      // if (
+      //   event.translationY > deltaY * heightComponent + 40 &&
+      //   allTranslateSharedValues[deltaY + 1 + index].value === 0
+      // ) {
+      //   allTranslateSharedValues[deltaY + 1 + index].value -= heightComponent;
+      // }
+      // if (
+      //   event.translationY < deltaY * heightComponent - 40 &&
+      //   allTranslateSharedValues[index + deltaY - 1].value === 0
+      // ) {
+      //   allTranslateSharedValues[index + deltaY - 1].value += heightComponent;
+      // }
       translateY.value = event.translationY + context.translateY;
     },
     onEnd: (event, context) => {
-      "worklet";
       const rest = (event.translationY + context.translateY) % 60;
       const cont = ((event.translationY + context.translateY) / 60) | 0;
       translateY.value =
@@ -97,11 +122,7 @@ function RenderItensList<T>({
   });
 
   return (
-    <PanGestureHandler
-      onEnded={updateListPositions}
-      onGestureEvent={onDrag}
-      activateAfterLongPress={500}
-    >
+    <PanGestureHandler onGestureEvent={onDrag} activateAfterLongPress={500}>
       <AnimatedTouchable style={[containerStyle]}>
         <RenderItens item={item} />
       </AnimatedTouchable>
@@ -117,31 +138,16 @@ type DynamicListT<T> = {
 export default function DynamicList<T>({ data, RenderItens }: DynamicListT<T>) {
   const translatesYs = useRef<SharedValue<number>[]>([]);
   data.map(() => translatesYs.current.push(useSharedValue(0)));
-  const [updating, setUpdating] = useState(false);
 
-  function swap(index: number, value: number) {
-    translatesYs.current[index].value = Number(0);
-    console.log("Log line 124: ", translatesYs.current[index]);
-    const dest = index + ((value / 60) | 0);
-    const aux = data[dest];
-    data[dest] = data[index];
-    data[index] = aux;
-    // const { value: auxValue } = translatesYs.current[dest];
-    // if (auxValue > 0) {
-    //   swap(dest, auxValue);
-    // }
-    console.log("Log line 132: ", index, value, translatesYs.current);
-  }
-
-  useEffect(() => {
+  const infoItens = useRef<infoItensType[]>(
     translatesYs.current.map((item, index) => {
-      const { value } = item;
-      if (value != 0) {
-        swap(index, value);
-      }
-    });
-    // console.log("Log line 142: ", translatesYs.current);
-  }, [updating]);
+      return {
+        absolutePosition: useSharedValue(index * 60),
+        currentIndex: useSharedValue(index),
+        translatesYsIndex: index,
+      };
+    })
+  );
 
   return (
     <SafeAreaView>
@@ -158,7 +164,7 @@ export default function DynamicList<T>({ data, RenderItens }: DynamicListT<T>) {
               translateYSharedValue={translatesYs.current[index]}
               index={index}
               allTranslateSharedValues={translatesYs.current}
-              updating={setUpdating}
+              infoItens={infoItens.current}
             />
           );
         })}
