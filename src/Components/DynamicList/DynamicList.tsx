@@ -66,31 +66,61 @@ function RenderItensList<T>({
     onActive: (event, context) => {
       const heightComponent = 60;
       const deltaY = (event.translationY / heightComponent) | 0;
-      // console.log("Log line 64: ", infoItens[index], event.translationY);
 
       const currentItem = infoItens.find(
         (item) => item.translatesYsIndex === index
       ) as infoItensType;
 
-      const i = infoItens.find(
+      const next = infoItens.find(
         (item) => item.currentIndex.value === currentItem.currentIndex.value + 1
       ) as infoItensType;
 
-      if (
-        event.translationY + currentItem.currentIndex.value * 60 >
-        i.absolutePosition.value - 20
-      ) {
-        if (i) {
-          allTranslateSharedValues[i.translatesYsIndex].value =
-            infoItens[index].absolutePosition.value - i.absolutePosition.value;
+      const prev = infoItens.find(
+        (item) => item.currentIndex.value === currentItem.currentIndex.value - 1
+      ) as infoItensType;
 
-          i.currentIndex.value -= 1;
-          i.absolutePosition.value -= heightComponent;
+      console.log(
+        "Log line 82: ",
+        context.translateY | 0,
+        translateY.value | 0
+      );
 
-          infoItens[index].absolutePosition.value += heightComponent;
-          infoItens[index].currentIndex.value += 1;
-          console.log("Log line 85: ", infoItens[index]);
-          console.log("Log line 74: ", i);
+      // if (next) {
+      //   if (
+      //     translateY.value +
+      //       currentItem.absolutePosition.value -
+      //       ((translateY.value / heightComponent) | 0) * heightComponent >
+      //     next.absolutePosition.value - 20
+      //   ) {
+      //     console.log("NEXT");
+
+      //     allTranslateSharedValues[next.translatesYsIndex].value =
+      //       infoItens[index].absolutePosition.value -
+      //       next.absolutePosition.value;
+
+      //     next.currentIndex.value -= 1;
+      //     next.absolutePosition.value -= heightComponent;
+
+      //     infoItens[index].absolutePosition.value += heightComponent;
+      //     infoItens[index].currentIndex.value += 1;
+      //   }
+      // }
+
+      if (prev) {
+        if (
+          allTranslateSharedValues[index].value < -prev.absolutePosition.value
+        ) {
+          console.log("PREV");
+          allTranslateSharedValues[prev.translatesYsIndex].value =
+            infoItens[index].absolutePosition.value -
+            prev.absolutePosition.value -
+            heightComponent;
+
+          prev.currentIndex.value += 1;
+          prev.absolutePosition.value += heightComponent;
+
+          infoItens[index].absolutePosition.value += -heightComponent;
+          infoItens[index].currentIndex.value -= 1;
         }
       }
       // if (
