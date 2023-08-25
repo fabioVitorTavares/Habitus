@@ -85,26 +85,24 @@ function RenderItensList<T>({
         translateY.value | 0
       );
 
-      // if (next) {
-      //   if (
-      //     translateY.value +
-      //       currentItem.absolutePosition.value -
-      //       ((translateY.value / heightComponent) | 0) * heightComponent >
-      //     next.absolutePosition.value - 20
-      //   ) {
-      //     console.log("NEXT");
+      if (next) {
+        if (
+          translateY.value - context.translateY >
+          next.absolutePosition.value
+        ) {
+          console.log("NEXT");
 
-      //     allTranslateSharedValues[next.translatesYsIndex].value =
-      //       infoItens[index].absolutePosition.value -
-      //       next.absolutePosition.value;
+          allTranslateSharedValues[next.translatesYsIndex].value =
+            infoItens[index].absolutePosition.value -
+            next.absolutePosition.value;
 
-      //     next.currentIndex.value -= 1;
-      //     next.absolutePosition.value -= heightComponent;
+          next.currentIndex.value -= 1;
+          next.absolutePosition.value -= heightComponent;
 
-      //     infoItens[index].absolutePosition.value += heightComponent;
-      //     infoItens[index].currentIndex.value += 1;
-      //   }
-      // }
+          infoItens[index].absolutePosition.value += heightComponent;
+          infoItens[index].currentIndex.value += 1;
+        }
+      }
 
       if (prev) {
         if (
