@@ -62,9 +62,15 @@ function RenderItensList<T>({
     },
     onActive: (event, context) => {
       const heightComponent = 60;
-      const prev = infoItens[index - 1];
-      const current = infoItens[index];
-      const next = infoItens[index + 1];
+      const current = infoItens[index] as infoItensType;
+
+      const next = infoItens.find(
+        (item) => item.currentIndex.value === current.currentIndex.value + 1
+      ) as infoItensType;
+
+      const prev = infoItens.find(
+        (item) => item.currentIndex.value === current.currentIndex.value - 1
+      ) as infoItensType;
 
       const yPrev = prev?.absolutePosition?.value + prev?.translatesYs?.value;
       const yCurrent =
@@ -72,19 +78,26 @@ function RenderItensList<T>({
       const yNext = next?.absolutePosition?.value + next?.translatesYs?.value;
 
       // console.log(prev, "\n", current, "\n", next);
+      console.log("Log line 75: ", yCurrent, yPrev);
 
       if (next) {
         if (yCurrent > yNext) {
           console.log("NEXT");
-          console.log(
-            next.translatesYs.value,
-            current.absolutePosition.value + next.translatesYs.value
-          );
-          next.translatesYs.value -=
-            current.absolutePosition.value + next.translatesYs.value;
+
+          next.translatesYs.value -= heightComponent;
           next.currentIndex.value -= 1;
 
           current.currentIndex.value += 1;
+        }
+      }
+      if (prev) {
+        if (yCurrent < yPrev) {
+          console.log("PREV");
+
+          prev.translatesYs.value += heightComponent;
+          prev.currentIndex.value += 1;
+
+          current.currentIndex.value -= 1;
         }
       }
 
