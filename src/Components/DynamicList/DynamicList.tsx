@@ -78,12 +78,9 @@ function RenderItensList<T>({
       const yNext = next?.absolutePosition?.value + next?.translatesYs?.value;
 
       // console.log(prev, "\n", current, "\n", next);
-      console.log("Log line 75: ", yCurrent, yPrev);
 
       if (next) {
-        if (yCurrent > yNext) {
-          console.log("NEXT");
-
+        if (yCurrent + 30 > yNext) {
           next.translatesYs.value -= heightComponent;
           next.currentIndex.value -= 1;
 
@@ -91,9 +88,7 @@ function RenderItensList<T>({
         }
       }
       if (prev) {
-        if (yCurrent < yPrev) {
-          console.log("PREV");
-
+        if (yCurrent - 30 < yPrev) {
           prev.translatesYs.value += heightComponent;
           prev.currentIndex.value += 1;
 
