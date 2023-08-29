@@ -105,18 +105,15 @@ function RenderItensList<T>({
     onEnd: (event, context) => {
       const rest = translateY.value % 60;
       const cont = (translateY.value / 60) | 0;
-      if (event.absoluteY > 370) {
-        translateY.value =
-          rest > 0
-            ? rest > 30
-              ? (cont + 1) * 60
-              : cont * 60
-            : rest < -30
-            ? (cont - 1) * 60
-            : cont * 60;
-      } else {
-        translateY.value = cont * 60;
-      }
+
+      translateY.value =
+        rest > 0
+          ? rest > 30
+            ? (cont + 1) * 60
+            : cont * 60
+          : rest < -30
+          ? (cont - 1) * 60
+          : cont * 60;
     },
   });
   function handleAnimateActive() {
