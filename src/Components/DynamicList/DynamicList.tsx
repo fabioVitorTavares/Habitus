@@ -42,6 +42,7 @@ function RenderItensList<T>({
 }: RenderItensListT<T>) {
   const AnimatedTouchable = Animated.createAnimatedComponent(View);
   const translateY = infoItens[index].translatesYs;
+  const opacityActive = useRef<SharedValue<number>>(useSharedValue(1))?.current;
 
   const containerStyle = useAnimatedStyle(() => {
     return {
@@ -50,6 +51,7 @@ function RenderItensList<T>({
           translateY: translateY.value,
         },
       ],
+      opacity: opacityActive?.value,
     };
   });
 
@@ -95,25 +97,42 @@ function RenderItensList<T>({
           current.currentIndex.value -= 1;
         }
       }
-
-      translateY.value = event.translationY + context.translateY;
+      console.log("Log line 98: ", event.absoluteY);
+      if (event.absoluteY > 370) {
+        translateY.value = event.translationY + context.translateY;
+      }
     },
     onEnd: (event, context) => {
       const rest = (event.translationY + context.translateY) % 60;
       const cont = ((event.translationY + context.translateY) / 60) | 0;
-      translateY.value =
-        rest > 0
-          ? rest > 30
-            ? (cont + 1) * 60
-            : cont * 60
-          : rest < -30
-          ? (cont - 1) * 60
-          : cont * 60;
+      if (event.absoluteY > 370) {
+        translateY.value =
+          rest > 0
+            ? rest > 30
+              ? (cont + 1) * 60
+              : cont * 60
+            : rest < -30
+            ? (cont - 1) * 60
+            : cont * 60;
+      } else {
+        translateY.value = cont * 60;
+      }
     },
   });
+  function handleAnimateActive() {
+    opacityActive.value = 0.5;
+  }
+  function handleAnimateInactive() {
+    opacityActive.value = 1;
+  }
 
   return (
-    <PanGestureHandler onGestureEvent={onDrag} activateAfterLongPress={500}>
+    <PanGestureHandler
+      onGestureEvent={onDrag}
+      activateAfterLongPress={500}
+      onActivated={handleAnimateActive}
+      onEnded={handleAnimateInactive}
+    >
       <AnimatedTouchable style={[containerStyle]}>
         <RenderItens item={item} />
       </AnimatedTouchable>
