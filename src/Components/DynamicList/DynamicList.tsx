@@ -103,8 +103,8 @@ function RenderItensList<T>({
       }
     },
     onEnd: (event, context) => {
-      const rest = (event.translationY + context.translateY) % 60;
-      const cont = ((event.translationY + context.translateY) / 60) | 0;
+      const rest = translateY.value % 60;
+      const cont = (translateY.value / 60) | 0;
       if (event.absoluteY > 370) {
         translateY.value =
           rest > 0
