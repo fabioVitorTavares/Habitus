@@ -17,7 +17,14 @@ import {
   PanGestureHandler,
   PanGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  LegacyRef,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { View } from "react-native";
 import { Touchable } from "react-native";
 
@@ -32,6 +39,7 @@ type RenderItensListT<T> = {
   index: number;
   allTranslateSharedValues: SharedValue<number>[];
   infoItens: infoItensType[];
+  scroolValue: SharedValue<number>;
 };
 
 function RenderItensList<T>({
@@ -39,6 +47,7 @@ function RenderItensList<T>({
   RenderItens,
   index,
   infoItens,
+  scroolValue,
 }: RenderItensListT<T>) {
   const AnimatedTouchable = Animated.createAnimatedComponent(View);
   const translateY = infoItens[index].translatesYs;
@@ -80,24 +89,26 @@ function RenderItensList<T>({
       const yNext = next?.absolutePosition?.value + next?.translatesYs?.value;
 
       // console.log(prev, "\n", current, "\n", next);
+      console.log("Log line 92: ", event.absoluteY);
 
       if (next) {
         if (yCurrent + 30 > yNext) {
           next.translatesYs.value -= heightComponent;
           next.currentIndex.value -= 1;
-
           current.currentIndex.value += 1;
+
+          if (current.currentIndex.value > 5 && event.absoluteY > 650) {
+            scroolValue.value += heightComponent;
+          }
         }
       }
       if (prev) {
         if (yCurrent - 30 < yPrev) {
           prev.translatesYs.value += heightComponent;
           prev.currentIndex.value += 1;
-
           current.currentIndex.value -= 1;
         }
       }
-      console.log("Log line 98: ", event.absoluteY);
       if (event.absoluteY > 370) {
         translateY.value = event.translationY + context.translateY;
       }
@@ -116,6 +127,7 @@ function RenderItensList<T>({
           : cont * 60;
     },
   });
+
   function handleAnimateActive() {
     opacityActive.value = 0.5;
   }
@@ -144,6 +156,7 @@ type DynamicListT<T> = {
 
 export default function DynamicList<T>({ data, RenderItens }: DynamicListT<T>) {
   const translatesYs = useRef<SharedValue<number>[]>([]);
+  const scroolValue = useRef<SharedValue<number>>(useSharedValue(0))?.current;
   data.map(() => translatesYs.current.push(useSharedValue(0)));
 
   const infoItens = useRef<infoItensType[]>(
@@ -156,11 +169,21 @@ export default function DynamicList<T>({ data, RenderItens }: DynamicListT<T>) {
     })
   );
 
+  const scrollRef = useRef<ScrollView | null>(null);
+
+  useEffect(() => {
+    setInterval(() => {
+      scrollRef?.current?.scrollTo({ y: scroolValue.value, animated: true });
+    }, 1000);
+  }, []);
+
   return (
     <SafeAreaView>
       <ScrollView
         style={styles.dynamicList}
         showsVerticalScrollIndicator={false}
+        ref={scrollRef}
+        onScroll={(e) => (scroolValue.value = e.nativeEvent.contentOffset.y)}
       >
         {data.map((item, index) => {
           return (
@@ -171,6 +194,7 @@ export default function DynamicList<T>({ data, RenderItens }: DynamicListT<T>) {
               index={index}
               allTranslateSharedValues={translatesYs.current}
               infoItens={infoItens.current}
+              scroolValue={scroolValue}
             />
           );
         })}
