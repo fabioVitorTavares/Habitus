@@ -17,6 +17,7 @@
     "@types/react-native": "~0.69.1",
     "expo": "^48.0.0",
     "expo-document-picker": "~11.2.2",
+    "expo-image-picker": "~14.1.1",
     "expo-local-authentication": "~13.3.0",
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",

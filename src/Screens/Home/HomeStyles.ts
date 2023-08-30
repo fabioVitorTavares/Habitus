@@ -20,6 +20,12 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: "#0009"
   },
+  avatarModal: {
+    width: 250,
+    height: 250,
+    borderRadius: 125,
+    backgroundColor: "#0009"
+  },
   cardTopHome: {
     height: 160,
     borderRadius: 10,
@@ -37,9 +43,30 @@ export const styles = StyleSheet.create({
   modal: {
     ...fullSize,
     ...centerItens,
-    
     position: 'absolute',
     zIndex: 1,
     backgroundColor: '#0005'
+  },
+  modalContainer: {
+    ...centerItens,
+    justifyContent: 'space-between',
+    width: '90%',
+    height: '70%',
+    paddingVertical: 50,
+    backgroundColor: '#FFF',
+    borderRadius: 10,
+  },
+  textAlterPhoto: {
+    fontSize: 22,
+    backgroundColor: '#0003',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 4
+  },
+  optionsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-evenly'
   }
 });

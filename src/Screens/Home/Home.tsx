@@ -5,9 +5,7 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
-  Modal,
-  ModalProps,
-  Touchable,
+  Pressable,
 } from "react-native";
 import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
 import CardHome from "../../Components/CardHome/CardHome";
@@ -23,18 +21,11 @@ import {
   SizeType,
 } from "../../Types/Types";
 
-import { Context } from "react-native-reanimated/lib/types/lib/reanimated2/hook/commonTypes";
-import { HandlerCallbacks } from "react-native-gesture-handler/lib/typescript/handlers/gestures/gesture";
-import {
-  LegacyRef,
-  RefObject,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useContext, useState } from "react";
 import DynamicList from "../../Components/DynamicList/DynamicList";
+import * as ImagePicker from "expo-image-picker";
 import { AppContext } from "../../Context/AppContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const sizeIconsCard = 50;
 const dataCards: CardPropsType[] = [
@@ -97,17 +88,123 @@ type ModalPickerPhotoProps = {
 };
 
 function ModalPickerPhoto({ isOpen, close }: ModalPickerPhotoProps) {
+  const [optionsVisible, setOptionsVisible] = useState(false);
+  const [optionsNewPhoto, setOptionsNewPhoto] = useState(false);
+
+  const { setPerfilPhotoUri, perfilPhotoUri } = useContext(AppContext);
+  const [photoUri, setPhotoUri] = useState<string>(perfilPhotoUri);
+
+  const [permissionsLibrary, requestPermission] =
+    ImagePicker.useMediaLibraryPermissions();
+
+  async function verifyPermission() {
+    if (!permissionsLibrary?.granted) {
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+    }
+  }
+
+  async function openCamera() {
+    verifyPermission();
+    if (permissionsLibrary?.granted) {
+      const { assets } = await ImagePicker.launchCameraAsync();
+      if (assets) {
+        setPhotoUri(assets[0]?.uri);
+        setOptionsVisible(false);
+        setOptionsNewPhoto(true);
+      }
+    }
+  }
+
+  async function pickerPhoto() {
+    if (permissionsLibrary?.granted) {
+      const { assets } = await ImagePicker.launchImageLibraryAsync();
+      if (assets) {
+        setPhotoUri(assets[0]?.uri);
+        setOptionsVisible(false);
+        setOptionsNewPhoto(true);
+      }
+    }
+  }
+
+  function hadlePressAlterPhoto() {
+    setOptionsVisible(true);
+  }
+
+  function closeOptions() {
+    setOptionsVisible(false);
+  }
+
+  function cancelar() {
+    setPhotoUri("");
+    setOptionsVisible(true);
+    setOptionsNewPhoto(false);
+  }
+
+  async function savePhotoUriCache(uri: string) {
+    await AsyncStorage.setItem("perfilPhotoUri", uri);
+  }
+
+  function salvar() {
+    setPerfilPhotoUri(photoUri);
+    const uri = JSON.stringify(photoUri);
+    savePhotoUriCache(uri);
+    closeModal();
+  }
+
+  function closeModal() {
+    setOptionsVisible(false);
+    setOptionsNewPhoto(false);
+    close();
+  }
+
   return (
     <>
       {isOpen && (
-        <TouchableOpacity onPress={close} style={{ ...styles.modal }}>
-          <Image
-            source={{
-              uri: "https://reactnative.dev/img/tiny_logo.png",
-            }}
-            style={styles.avatar}
-          />
-          <Text>Modal</Text>
+        <TouchableOpacity onPress={closeModal} style={{ ...styles.modal }}>
+          <Pressable style={styles.modalContainer} onPress={closeOptions}>
+            {photoUri && (
+              <Image
+                source={{
+                  uri: photoUri as string,
+                }}
+                style={styles.avatarModal}
+              />
+            )}
+            {!photoUri && <View style={styles.avatarModal} />}
+            <View style={styles.optionsContainer}>
+              {!optionsVisible && !optionsNewPhoto && (
+                <TouchableOpacity onPress={close}>
+                  <Text style={styles.textAlterPhoto}>Cancelar</Text>
+                </TouchableOpacity>
+              )}
+              {!optionsVisible && !optionsNewPhoto && (
+                <TouchableOpacity onPress={hadlePressAlterPhoto}>
+                  <Text style={styles.textAlterPhoto}>Alterar foto</Text>
+                </TouchableOpacity>
+              )}
+
+              {optionsVisible && (
+                <TouchableOpacity onPress={pickerPhoto}>
+                  <Text style={styles.textAlterPhoto}>Galeria</Text>
+                </TouchableOpacity>
+              )}
+              {optionsVisible && (
+                <TouchableOpacity onPress={openCamera}>
+                  <Text style={styles.textAlterPhoto}>Camera</Text>
+                </TouchableOpacity>
+              )}
+              {optionsNewPhoto && (
+                <TouchableOpacity onPress={cancelar}>
+                  <Text style={styles.textAlterPhoto}>Cancelar</Text>
+                </TouchableOpacity>
+              )}
+              {optionsNewPhoto && (
+                <TouchableOpacity onPress={salvar}>
+                  <Text style={styles.textAlterPhoto}>Salvar</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          </Pressable>
         </TouchableOpacity>
       )}
     </>
@@ -115,6 +212,7 @@ function ModalPickerPhoto({ isOpen, close }: ModalPickerPhotoProps) {
 }
 
 export default function Home() {
+  const { perfilPhotoUri } = useContext(AppContext);
   const [modalPickerPhotoVisible, setModalPickerPhotoVisible] = useState(false);
 
   function closeModalPickerPhoto() {
@@ -139,12 +237,15 @@ export default function Home() {
         <View style={styles.homeContainer}>
           <View style={styles.headerHome}>
             <TouchableOpacity onPress={handlePressAvatar}>
-              <Image
-                source={{
-                  uri: "https://reactnative.dev/img/tiny_logo.png",
-                }}
-                style={styles.avatar}
-              />
+              {perfilPhotoUri && (
+                <Image
+                  source={{
+                    uri: perfilPhotoUri,
+                  }}
+                  style={styles.avatar}
+                />
+              )}
+              {!perfilPhotoUri && <View style={styles.avatar} />}
             </TouchableOpacity>
             <Text>Usuário</Text>
           </View>

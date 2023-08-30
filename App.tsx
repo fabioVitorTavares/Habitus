@@ -19,12 +19,21 @@ export default function App() {
   const [requireAuthetication, setRequireAuthentication] = useState(false);
   const [auth, setAuth] = useState(false);
   const { width: widthScreen, height: heightScreen } = useWindowDimensions();
+  const [perfilPhotoUri, setPerfilPhotoUri] = useState<string>("");
 
   const [appBackgroundColor, setAppBackgroundColor] = useState("#FFF");
   const [categories, setCategories] = useState<string[]>([]);
   const [categorySelected, setCategorySelected] = useState<string>(
     categories[0]
   );
+
+  async function loadPerfilPhoto() {
+    const photoUriInCacheJson = await AsyncStorage.getItem("perfilPhotoUri");
+    if (photoUriInCacheJson) {
+      const photoUriInCache = JSON.parse(photoUriInCacheJson);
+      setPerfilPhotoUri(photoUriInCache);
+    }
+  }
 
   const getData = async () => {
     const value = await AsyncStorage.getItem("requireAuthentication");
@@ -40,6 +49,7 @@ export default function App() {
 
   const checkAuthentication = useCallback(async () => {
     try {
+      await loadPerfilPhoto();
       const requireAutheticationCache = await getData();
       if (requireAutheticationCache) {
         const { success } = await LocalAuthentication.authenticateAsync({
@@ -53,7 +63,9 @@ export default function App() {
         setAuth(true);
         await SplashScreen.hideAsync();
       }
-    } catch (e) {}
+    } catch (e) {
+      console.log("Log line 67: ", e);
+    }
   }, [auth]);
 
   if (!auth) {
@@ -83,6 +95,8 @@ export default function App() {
           setLoad,
           widthScreen,
           heightScreen,
+          perfilPhotoUri,
+          setPerfilPhotoUri,
         }}
       >
         <Routes />

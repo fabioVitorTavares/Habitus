@@ -14,4 +14,6 @@ export type AppContextType = {
   setLoad?: Dispatch<SetStateAction<boolean>>;
   widthScreen?: number,
   heightScreen?: number,
+  perfilPhotoUri: string,
+  setPerfilPhotoUri: Dispatch<SetStateAction<string>>
 }
