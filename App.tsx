@@ -15,7 +15,6 @@ import { fullSize } from "./src/Styles/DefaultsStyles";
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  // "worklet";
   const [load, setLoad] = useState(false);
   const [requireAuthetication, setRequireAuthentication] = useState(false);
   const [auth, setAuth] = useState(false);

@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
   }, 
   headerHome: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     marginHorizontal: 20,
     gap: 20
   },
@@ -33,5 +33,13 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: '#0005',
     marginBottom: 10,
+  },
+  modal: {
+    ...fullSize,
+    ...centerItens,
+    
+    position: 'absolute',
+    zIndex: 1,
+    backgroundColor: '#0005'
   }
 });
