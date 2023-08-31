@@ -2,7 +2,11 @@ import { StyleSheet } from "react-native";
 import { centerItens, fullSize } from "../../Styles/DefaultsStyles";
 
 export const styles = StyleSheet.create({
- 
+  itemContainer: {
+   display: 'flex',
+    flexDirection: 'row',
+    width: '100%'
+  },
   cardList: {
     ...centerItens,
     width: '96%',
@@ -19,11 +23,12 @@ export const styles = StyleSheet.create({
   },
   trashIcon: {
     ...centerItens,
-    width: 50,
+    width: 74,
     height: 50,
-    backgroundColor: "#000",
+    backgroundColor: "#111",   
+    borderRadius: 4,
     position: 'absolute',
-    right: -50,
-    borderRadius: 4
+    right: '2%',
+    zIndex: -1
   }
 });

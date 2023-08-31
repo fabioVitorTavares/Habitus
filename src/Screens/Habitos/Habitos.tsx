@@ -9,17 +9,12 @@ import {
 import { styles } from "./HabitosStyles";
 import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
 import ItemHabito from "../../Components/ItemHabito/ItemHabito";
-
-const habitos = new Array(50).fill(null).map((item, index) => {
-  return { description: `Habito ${index + 1}` };
-});
+import { useEffect, useState } from "react";
 
 type ItemHabitoProps = {
   description: string;
-};
-
-const renderItem: ListRenderItem<ItemHabitoProps> = ({ item }) => {
-  return <ItemHabito description={item.description} />;
+  deleteItem: (i: number) => void;
+  index: number;
 };
 
 function Separator() {
@@ -27,6 +22,38 @@ function Separator() {
 }
 
 export default function Habitos() {
+  const [habitos, setHabitos] = useState<ItemHabitoProps[]>([]);
+
+  function deleteItem(index: number) {
+    setHabitos((p) => p.filter((item) => item.index != index));
+  }
+
+  useEffect(() => {
+    setHabitos(
+      new Array(50).fill(null).map((item, index) => {
+        return {
+          description: `Habito ${index + 1}`,
+          index,
+          deleteItem,
+        };
+      })
+    );
+  }, []);
+
+  // useEffect(() => {
+  //   console.log({ habitos });
+  // }, [habitos]);
+
+  const renderItem: ListRenderItem<ItemHabitoProps> = ({ item }) => {
+    return (
+      <ItemHabito
+        description={item.description}
+        deleteItem={deleteItem}
+        index={item.index}
+      />
+    );
+  };
+
   return (
     <ScreenContainer>
       <View style={styles.screen}>

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import {
   GestureEvent,
@@ -17,14 +17,16 @@ import { FontAwesome5 as TrashIcon } from "@expo/vector-icons";
 
 type ItemHabitoProps = {
   description: string;
+  deleteItem: (i: number) => void;
+  index: number;
 };
 
-export default function ItemHabito({ description }: ItemHabitoProps) {
+export default function ItemHabito({
+  description,
+  index,
+  deleteItem,
+}: ItemHabitoProps) {
   const AnimatedTouchable = Animated.createAnimatedComponent(View);
-  const opacityActive = useRef<SharedValue<number>>(useSharedValue(1))?.current;
-  const opacityTrashIcon = useRef<SharedValue<number>>(
-    useSharedValue(0)
-  )?.current;
   const translateX = useRef<SharedValue<number>>(useSharedValue(0))?.current;
 
   const containerStyle = useAnimatedStyle(() => {
@@ -34,7 +36,6 @@ export default function ItemHabito({ description }: ItemHabitoProps) {
           translateX: translateX.value,
         },
       ],
-      opacity: opacityActive?.value,
     };
   });
 
@@ -44,39 +45,28 @@ export default function ItemHabito({ description }: ItemHabitoProps) {
   >({
     onStart: (event, context) => {
       translateX.value = 0;
-      opacityTrashIcon.value = 0;
     },
-    onActive: (event, context) => {},
-    onEnd: (event) => {
-      if (event?.translationX < -100) {
-        translateX.value = -75;
-        opacityTrashIcon.value = 1;
-      }
+    onActive: (event, context) => {
+      translateX.value = -75;
     },
   });
 
-  function handleAnimateActive() {
-    opacityActive.value = 0.5;
-  }
-  function handleAnimateInactive() {
-    opacityActive.value = 1;
+  function deleteCurrentItem() {
+    translateX.value = 0;
+    deleteItem(index);
   }
 
   return (
-    <PanGestureHandler
-      onGestureEvent={onDrag}
-      onActivated={handleAnimateActive}
-      onEnded={handleAnimateInactive}
-      activateAfterLongPress={500}
-    >
-      <AnimatedTouchable style={[styles.cardList, containerStyle]}>
-        <Text style={styles.description}> {description}</Text>
-        <View style={[styles.trashIcon, { opacity: opacityTrashIcon.value }]}>
-          <TouchableOpacity>
-            <TrashIcon name="trash" size={24} color="#FFF" />
-          </TouchableOpacity>
-        </View>
-      </AnimatedTouchable>
-    </PanGestureHandler>
+    <View style={styles.itemContainer}>
+      <PanGestureHandler onGestureEvent={onDrag} activeOffsetX={-50}>
+        <AnimatedTouchable style={[styles.cardList, containerStyle]}>
+          <Text style={styles.description}> {description}</Text>
+        </AnimatedTouchable>
+      </PanGestureHandler>
+
+      <TouchableOpacity style={styles.trashIcon} onPress={deleteCurrentItem}>
+        <TrashIcon name="trash" size={24} color="#FFF" />
+      </TouchableOpacity>
+    </View>
   );
 }
