@@ -18,6 +18,7 @@ import {
 import {
   CardPropsType,
   RendeItensCardHomeProp,
+  RenderItemListHabitosProps,
   SizeType,
 } from "../../Types/Types";
 
@@ -70,6 +71,15 @@ const dataCards: CardPropsType[] = [
 const dataHabitos = new Array(100).fill(null).map((i, id) => {
   return { habito: `Hábito numero ${id}`, key: `KEY${id}` };
 });
+function ItemListHabitos({
+  item: { habito, key },
+}: RenderItemListHabitosProps) {
+  return (
+    <View key={key} style={styles.itemListHabitos}>
+      <Text>{habito}</Text>
+    </View>
+  );
+}
 
 function ItemSeparator({ size }: SizeType) {
   return (
@@ -266,7 +276,7 @@ export default function Home() {
               )}
             />
           </SafeAreaView>
-          {/* <DynamicList data={dataHabitos} RenderItens={ItemListHabitos} /> */}
+          <DynamicList data={dataHabitos} RenderItens={ItemListHabitos} />
         </View>
       </>
     </ScreenContainer>

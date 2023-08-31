@@ -88,9 +88,6 @@ function RenderItensList<T>({
         current?.absolutePosition?.value + current?.translatesYs?.value;
       const yNext = next?.absolutePosition?.value + next?.translatesYs?.value;
 
-      // console.log(prev, "\n", current, "\n", next);
-      console.log("Log line 92: ", event.absoluteY);
-
       if (next) {
         if (yCurrent + 30 > yNext) {
           next.translatesYs.value -= heightComponent;
