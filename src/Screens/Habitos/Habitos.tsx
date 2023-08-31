@@ -4,31 +4,39 @@ import {
   FlatList,
   FlatListProps,
   ListRenderItem,
+  SafeAreaView,
 } from "react-native";
 import { styles } from "./HabitosStyles";
 import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
+import ItemHabito from "../../Components/ItemHabito/ItemHabito";
 
-const day = [
-  "Domingo",
-  "Segunda",
-  "Terça",
-  "Quarta",
-  "Quinta",
-  "Sexta",
-  "Sábado",
-];
+const habitos = new Array(50).fill(null).map((item, index) => {
+  return { description: `Habito ${index + 1}` };
+});
 
-const renderItem: ListRenderItem<string> = ({ item }) => {
-  return <Text>{item}</Text>;
+type ItemHabitoProps = {
+  description: string;
 };
 
+const renderItem: ListRenderItem<ItemHabitoProps> = ({ item }) => {
+  return <ItemHabito description={item.description} />;
+};
+
+function Separator() {
+  return <View style={{ height: 5 }} />;
+}
+
 export default function Habitos() {
-  const currentDay = new Date().getDay();
   return (
     <ScreenContainer>
       <View style={styles.screen}>
-        <Text style={styles.titleDay}>{day[currentDay]}</Text>
-        <FlatList data={day} renderItem={renderItem} />
+        <SafeAreaView style={styles.flatList}>
+          <FlatList
+            data={habitos}
+            renderItem={renderItem}
+            ItemSeparatorComponent={() => <Separator />}
+          />
+        </SafeAreaView>
       </View>
     </ScreenContainer>
   );

@@ -5,10 +5,9 @@ export const styles = StyleSheet.create({
   screen: {
     ...centerItens,
     ...fullSize,
-    borderWidth: 1,
-    justifyContent: 'flex-start'
+    paddingTop: 100
   },
-  titleDay: {
-    fontSize: 40,
-  }
+  flatList: {
+    width: '100%',    
+  },
 });
