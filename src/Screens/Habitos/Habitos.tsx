@@ -10,6 +10,7 @@ import { styles } from "./HabitosStyles";
 import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
 import ItemHabito from "../../Components/ItemHabito/ItemHabito";
 import { useEffect, useState } from "react";
+import Calendar from "../../Components/Calendar/Calendar";
 
 type ItemHabitoProps = {
   description: string;
@@ -54,16 +55,19 @@ export default function Habitos() {
     );
   };
 
+  const [currentDate, setCurrentDate] = useState<Date>(new Date());
+
   return (
     <ScreenContainer>
       <View style={styles.screen}>
-        <SafeAreaView style={styles.flatList}>
+        {/* <SafeAreaView style={styles.flatList}>
           <FlatList
             data={habitos}
             renderItem={renderItem}
             ItemSeparatorComponent={() => <Separator />}
           />
-        </SafeAreaView>
+        </SafeAreaView> */}
+        <Calendar currentDate={currentDate} setCurrentDate={setCurrentDate} />
       </View>
     </ScreenContainer>
   );

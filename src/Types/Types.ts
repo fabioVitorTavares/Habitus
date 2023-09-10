@@ -41,3 +41,8 @@ export type HabitoKeyStringType = {
 export type RenderItemListHabitosProps = {
   item: HabitoKeyStringType;
 };
+
+export type CalendarProps = {
+  currentDate: Date;
+  setCurrentDate: Dispatch<SetStateAction<Date>>;
+};
