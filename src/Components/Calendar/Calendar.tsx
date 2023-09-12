@@ -31,29 +31,67 @@ export default function Calendar({
     return new Date(currentDate.getTime() - ONE_DAY_IN_MS);
   }
 
+  type TMapIndexDays = { [key: number]: Date[] };
+
+  const mapIndexDays: TMapIndexDays = {
+    0: [currentDate, nextDate(), previousDate()],
+    1: [previousDate(), currentDate, nextDate()],
+    2: [nextDate(), previousDate(), currentDate],
+  };
+
+  const [indexCarousel, setIndexCarousel] = useState<number>(0);
+
+  useEffect(() => {
+    setPrevCurrentNextDay(mapIndexDays[indexCarousel]);
+  }, [indexCarousel]);
+
   function changeIndexCarousel(index: number) {
-    console.log("Log line 37: ", prevCurrentNextDay);
+    setIndexCarousel((p) => {
+      if (p === 0) {
+        if (index === 1) {
+          nextDay();
+        } else {
+          previousDay();
+        }
+      } else if (p === 1) {
+        if (index === 0) {
+          previousDay();
+        } else {
+          nextDay();
+        }
+      } else {
+        if (index === 0) {
+          nextDay();
+        } else {
+          previousDay();
+        }
+      }
+      return index;
+    });
   }
 
   return (
     <View style={styles.caledarContainer}>
       <Carousel
-        width={200}
+        width={250}
         height={100}
         loop
         data={prevCurrentNextDay}
-        scrollAnimationDuration={500}
-        onSnapToItem={(index) => changeIndexCarousel(index)}
-        renderItem={({ item }) => (
+        scrollAnimationDuration={100}
+        onSnapToItem={changeIndexCarousel}
+        renderItem={({ index }) => (
           <View
             style={{
               flex: 1,
-              borderWidth: 1,
               justifyContent: "center",
             }}
           >
             <Text style={{ textAlign: "center", fontSize: 30 }}>
-              {item.toLocaleDateString()}
+              {prevCurrentNextDay[index].toLocaleDateString("pt-BR", {
+                month: "numeric",
+                year: "numeric",
+                day: "numeric",
+              })}
             </Text>
           </View>
         )}
