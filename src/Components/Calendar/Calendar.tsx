@@ -2,7 +2,7 @@ import { Pressable, Text, View } from "react-native";
 import { CalendarProps } from "../../Types/Types";
 import { styles } from "./CalendarStyles";
 import Carousel from "react-native-reanimated-carousel";
-import { Children, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const ONE_DAY_IN_MS = 86400000;
@@ -43,12 +43,13 @@ export default function Calendar({
 
   const [indexCarousel, setIndexCarousel] = useState<number>(0);
 
+  useEffect(() => {}, [prevCurrentNextDay]);
+
   useEffect(() => {
     setPrevCurrentNextDay(mapIndexDays[indexCarousel]);
-  }, [indexCarousel]);
+  }, [indexCarousel, currentDate]);
 
   function changeIndexCarousel(index: number) {
-    console.log("Log line 51: ", index);
     setIndexCarousel((p) => {
       if (p === 0) {
         if (index === 1) {
@@ -133,10 +134,10 @@ export default function Calendar({
         data={prevCurrentNextDay}
         scrollAnimationDuration={100}
         onSnapToItem={changeIndexCarousel}
-        renderItem={({ index }) => (
+        renderItem={({ index, item }) => (
           <View style={styles.dateCarouselContainer}>
             <Text style={styles.dateCarousel}>
-              {currentDate.toLocaleDateString("pt-BR", {
+              {item.toLocaleDateString("pt-BR", {
                 month: "numeric",
                 year: "numeric",
                 day: "numeric",
