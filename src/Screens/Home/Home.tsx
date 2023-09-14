@@ -29,8 +29,6 @@ import { AppContext } from "../../Context/AppContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Device from "expo-device";
 
-console.log("Log line 32: ", Device);
-
 const sizeIconsCard = 50;
 const dataCards: CardPropsType[] = [
   {

@@ -2,7 +2,8 @@ import { Pressable, Text, View } from "react-native";
 import { CalendarProps } from "../../Types/Types";
 import { styles } from "./CalendarStyles";
 import Carousel from "react-native-reanimated-carousel";
-import { useEffect, useState } from "react";
+import { Children, useEffect, useState } from "react";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const ONE_DAY_IN_MS = 86400000;
 export default function Calendar({
@@ -10,6 +11,7 @@ export default function Calendar({
   setCurrentDate,
 }: CalendarProps) {
   const [prevCurrentNextDay, setPrevCurrentNextDay] = useState<Date[]>([]);
+  const [daysOfMonth, setDaysOfMonth] = useState<(Date | null)[]>([]);
 
   useEffect(() => {
     setPrevCurrentNextDay([previousDate(), currentDate, nextDate()]);
@@ -46,6 +48,7 @@ export default function Calendar({
   }, [indexCarousel]);
 
   function changeIndexCarousel(index: number) {
+    console.log("Log line 51: ", index);
     setIndexCarousel((p) => {
       if (p === 0) {
         if (index === 1) {
@@ -70,8 +73,59 @@ export default function Calendar({
     });
   }
 
+  useEffect(() => {
+    const firstDayofMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth()
+    );
+    const positionFirstDayofMonth = firstDayofMonth.getDay();
+
+    const daysOfCurrentMonth: (Date | null)[] = new Array(35)
+      .fill(null)
+      .map((item, index) => {
+        if (index === positionFirstDayofMonth) {
+          return firstDayofMonth;
+        }
+        if (index > positionFirstDayofMonth) {
+          const date = new Date(
+            firstDayofMonth.getTime() +
+              (index - positionFirstDayofMonth) * ONE_DAY_IN_MS
+          );
+          if (date.getMonth() > firstDayofMonth.getMonth()) {
+            return null;
+          }
+          return date;
+        }
+        return null;
+      });
+
+    setDaysOfMonth(daysOfCurrentMonth);
+  }, [currentDate]);
+
   return (
     <View style={styles.caledarContainer}>
+      <View style={styles.dayTouchsContainer}>
+        {daysOfMonth.map((d, i) => {
+          return d ? (
+            <TouchableOpacity
+              style={styles.dayTouch}
+              onPress={() => setCurrentDate(d as Date)}
+              key={i}
+            >
+              <Text
+                style={[
+                  styles.dayTouchText,
+                  d?.getDate() == currentDate.getDate() && styles.currentDay,
+                ]}
+              >
+                {d?.getDate()}
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <View key={i} style={styles.dayVoid} />
+          );
+        })}
+      </View>
       <Carousel
         width={250}
         height={100}
@@ -80,14 +134,9 @@ export default function Calendar({
         scrollAnimationDuration={100}
         onSnapToItem={changeIndexCarousel}
         renderItem={({ index }) => (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-            }}
-          >
-            <Text style={{ textAlign: "center", fontSize: 30 }}>
-              {prevCurrentNextDay[index].toLocaleDateString("pt-BR", {
+          <View style={styles.dateCarouselContainer}>
+            <Text style={styles.dateCarousel}>
+              {currentDate.toLocaleDateString("pt-BR", {
                 month: "numeric",
                 year: "numeric",
                 day: "numeric",
