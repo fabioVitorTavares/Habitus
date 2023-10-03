@@ -10,8 +10,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppContext } from "./src/Context/AppContext";
 import { useCallback, useEffect, useState } from "react";
 import Routes, { RootStackParamList } from "./src/Routes/Routes";
-import { StyleSheet, useWindowDimensions } from "react-native";
+import { BackHandler, StyleSheet, useWindowDimensions } from "react-native";
 import { fullSize } from "./src/Styles/DefaultsStyles";
+
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {

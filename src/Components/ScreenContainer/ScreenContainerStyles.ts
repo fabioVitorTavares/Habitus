@@ -6,5 +6,6 @@ export const styles = StyleSheet.create({
   screenContainer: {
     ...centerItens,
     ...fullSize,
+    padding: 10,
   }  
 });

@@ -20,7 +20,8 @@ export type IconType = ({ color, size }: IconProps) => JSX.Element;
 
 
 export type CardPropsType = {
-  text: string;
+  title: string;
+  description: string;
   link: NavigationTypes;
   Icon: IconType;
   key: string;
@@ -45,4 +46,9 @@ export type RenderItemListHabitosProps = {
 export type CalendarProps = {
   currentDate: Date;
   setCurrentDate: Dispatch<SetStateAction<Date>>;
+};
+
+export type ModalPickerPhotoProps = {
+  isOpen: boolean;
+  close: () => void;
 };

@@ -1,11 +1,15 @@
 import { useNavigation } from "@react-navigation/native";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { RootStackParamList } from "../../Routes/Routes";
 import { styles } from "./CardHomeStyles";
 import { CardPropsType, IconProps } from "../../Types/Types";
 
-export default function CardHome({ Icon, text, link }: CardPropsType) {
+export default function CardHome({
+  Icon,
+  title,
+  description,
+  link,
+}: CardPropsType) {
   const navigation = useNavigation();
 
   function IconCard({ color, size }: IconProps) {
@@ -18,7 +22,10 @@ export default function CardHome({ Icon, text, link }: CardPropsType) {
       onPress={() => navigation.navigate(link)}
     >
       <IconCard />
-      <Text>{text}</Text>
+      <View style={styles.textContainer}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.description}>{description}</Text>
+      </View>
     </TouchableOpacity>
   );
 }
