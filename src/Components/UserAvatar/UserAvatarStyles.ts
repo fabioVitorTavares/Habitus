@@ -2,9 +2,16 @@ import { StyleSheet } from "react-native";
 import { centerItens, fullSize } from "../../Styles/DefaultsStyles";
 
 export const styles = StyleSheet.create({
+  userAvatarContainer: {
+    width: '100%',
+    height: '20%',
+    ...centerItens,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
   avatar: {
-    width: 60,
-    height: 60,
+    width: 100,
+    height: 100,
     borderRadius: 50,
     backgroundColor: "#0009"
   },

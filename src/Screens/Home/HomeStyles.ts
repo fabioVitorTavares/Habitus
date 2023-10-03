@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   }, 
   cardsContainer: {
+    height: '30%',
     display: 'flex',
     gap: 10,
     justifyContent: 'space-between',

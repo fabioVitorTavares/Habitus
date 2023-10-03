@@ -149,21 +149,19 @@ export default function UserAvatar() {
 
   return (
     <>
-      <View>
-        <View>
-          <TouchableOpacity onPress={handlePressAvatar}>
-            {perfilPhotoUri && (
-              <Image
-                source={{
-                  uri: perfilPhotoUri,
-                }}
-                style={styles.avatar}
-              />
-            )}
-            {!perfilPhotoUri && <View style={styles.avatar} />}
-          </TouchableOpacity>
-          <Text>Usuário</Text>
-        </View>
+      <View style={styles.userAvatarContainer}>
+        <TouchableOpacity onPress={handlePressAvatar}>
+          {perfilPhotoUri && (
+            <Image
+              source={{
+                uri: perfilPhotoUri,
+              }}
+              style={styles.avatar}
+            />
+          )}
+          {!perfilPhotoUri && <View style={styles.avatar} />}
+        </TouchableOpacity>
+        <Text>Usuário</Text>
       </View>
       <ModalPickerPhoto
         isOpen={modalPickerPhotoVisible}
