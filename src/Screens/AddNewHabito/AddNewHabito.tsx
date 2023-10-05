@@ -17,8 +17,13 @@ import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
 import { saveHabito } from "../../FileSystem/FileSystem";
 
 export default function AddNewHabito() {
-  const { categories, setCategories, categorySelected, setCategorySelected } =
-    useContext(AppContext);
+  const {
+    setHabitos,
+    categories,
+    setCategories,
+    categorySelected,
+    setCategorySelected,
+  } = useContext(AppContext);
   const [checkAllDays, setCheckAllDays] = useState(false);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -122,7 +127,7 @@ export default function AddNewHabito() {
       })
       .filter((n: number) => !isNaN(n));
   }
-  function onPressSalvar() {
+  async function onPressSalvar() {
     // console.log({
     //   title,
     //   description,
@@ -130,13 +135,14 @@ export default function AddNewHabito() {
     //   days: getDays(),
     // });
 
-    saveHabito({
+    const newsHabitos = await saveHabito({
       uuid: "",
       title,
       description,
       createdDate: new Date(),
       days: getDays(),
     });
+    setHabitos(newsHabitos);
   }
 
   return (
