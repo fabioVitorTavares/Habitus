@@ -15,11 +15,12 @@ import { fullSize } from "./src/Styles/DefaultsStyles";
 import * as FileSystem from "expo-file-system";
 import { HabitoT } from "./src/Types/Types";
 import * as Crypto from "expo-crypto";
+import { getHabitos } from "./src/FileSystem/FileSystem";
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [load, setLoad] = useState(false);
-  const [habitos, setHabitos] = useState<HabitoT[]>([]);
+  const [habitos, setHabitos] = useState<HabitoT[] | undefined>([]);
 
   const [requireAuthetication, setRequireAuthentication] = useState(false);
   const [auth, setAuth] = useState(false);
@@ -109,39 +110,12 @@ export default function App() {
   ];
 
   async function fileSystemFetchData() {
-    const habitusDirectory = FileSystem.documentDirectory ?? "" + "habitos/";
-
-    await FileSystem.makeDirectoryAsync(habitusDirectory, {
-      intermediates: true,
-    });
-
-    if (habitosTest) {
-      // const promises = habitosTest.map((habito, index) => {
-      //   const nameFile = habito.uuid;
-      //   const fileUri = habitusDirectory + nameFile;
-      //   return FileSystem.writeAsStringAsync(fileUri, JSON.stringify(habito));
-      // });
-      // const results = await Promise.allSettled(promises);
-      // results.flatMap((r) => console.log(r));
-    }
-
     try {
-      const files = await FileSystem.readDirectoryAsync(habitusDirectory);
-
-      const readFilesPromises = files.map((file) => {
-        return FileSystem.readAsStringAsync(`${habitusDirectory}/${file}`);
+      const habitusDirectory = FileSystem.documentDirectory ?? "" + "habitos/";
+      await FileSystem.makeDirectoryAsync(habitusDirectory, {
+        intermediates: true,
       });
-
-      const resultsReadFiles = await Promise.allSettled(readFilesPromises);
-
-      const objectsHabito: HabitoT[] = [];
-      resultsReadFiles.flatMap((result) => {
-        if (result.status === "fulfilled") {
-          if (result.value.includes("uuid")) {
-            objectsHabito.push(JSON.parse(result.value));
-          }
-        }
-      });
+      const objectsHabito = await getHabitos();
       setHabitos(objectsHabito);
     } catch (e) {
       console.log(`Erro em fileSystemFetchData. Erro: ${e}`);

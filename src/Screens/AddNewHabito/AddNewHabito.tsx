@@ -1,5 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Modal } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Modal,
+  Button,
+} from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { styles } from "./AddNewHabitoStyles";
 import { AppContext } from "../../Context/AppContext";
@@ -7,15 +14,22 @@ import CheckBox from "../../Components/CheckBox/CheckBox";
 import ModalAddCategory from "../../Components/ModalAddCategory/ModalAddCategory";
 import { Entypo as Icon } from "@expo/vector-icons";
 import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
+import { saveHabito } from "../../FileSystem/FileSystem";
 
 export default function AddNewHabito() {
   const { categories, setCategories, categorySelected, setCategorySelected } =
     useContext(AppContext);
   const [checkAllDays, setCheckAllDays] = useState(false);
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
 
   const [modalOpen, setModalOpen] = useState(false);
 
   const checkDays = [
+    {
+      name: "Dom",
+      check: useState(false),
+    },
     {
       name: "Seg",
       check: useState(false),
@@ -38,10 +52,6 @@ export default function AddNewHabito() {
     },
     {
       name: "Sab",
-      check: useState(false),
-    },
-    {
-      name: "Dom",
       check: useState(false),
     },
   ];
@@ -96,6 +106,39 @@ export default function AddNewHabito() {
     );
   };
 
+  // uuid: Crypto.randomUUID(),
+  // title: "Habito 3",
+  // description: "Descrição do habito 3",
+  // createdDate: new Date(),
+  // days: [2, 4],
+
+  function getDays() {
+    return checkDays
+      .map(({ check }, index) => {
+        if (check[0]) {
+          return index;
+        }
+        return NaN;
+      })
+      .filter((n: number) => !isNaN(n));
+  }
+  function onPressSalvar() {
+    // console.log({
+    //   title,
+    //   description,
+    //   createdDate: new Date(),
+    //   days: getDays(),
+    // });
+
+    saveHabito({
+      uuid: "",
+      title,
+      description,
+      createdDate: new Date(),
+      days: getDays(),
+    });
+  }
+
   return (
     <ScreenContainer>
       <View style={styles.screen}>
@@ -109,11 +152,11 @@ export default function AddNewHabito() {
         </View>
         <View style={styles.containerInputs}>
           <Text style={styles.text}>Novo hábito:</Text>
-          <TextInput style={styles.textInput} />
+          <TextInput style={styles.textInput} onChangeText={setTitle} />
         </View>
         <View style={styles.containerInputs}>
           <Text style={styles.text}>Breve descrição:</Text>
-          <TextInput style={styles.textInput} />
+          <TextInput style={styles.textInput} onChangeText={setDescription} />
         </View>
         <TouchableOpacity onPress={() => setModalOpen(true)}>
           <Text>Open</Text>
@@ -137,6 +180,9 @@ export default function AddNewHabito() {
                 </View>
               );
             })}
+          </View>
+          <View>
+            <Button title="Salvar" onPress={onPressSalvar} />
           </View>
         </View>
       </View>
