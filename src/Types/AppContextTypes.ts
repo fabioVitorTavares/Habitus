@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import { HabitoT } from "./Types";
 
 export type AppContextType = {
   theme?: string;
@@ -14,6 +15,8 @@ export type AppContextType = {
   setLoad?: Dispatch<SetStateAction<boolean>>;
   widthScreen?: number,
   heightScreen?: number,
-  perfilPhotoUri: string,
-  setPerfilPhotoUri: Dispatch<SetStateAction<string>>
+  perfilPhotoUri?: string,
+  setPerfilPhotoUri?: Dispatch<SetStateAction<string>>
+  habitos?: HabitoT[],
+  setHabitos?: Dispatch<SetStateAction<HabitoT[]>>,
 }

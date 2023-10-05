@@ -12,11 +12,15 @@ import { useCallback, useEffect, useState } from "react";
 import Routes, { RootStackParamList } from "./src/Routes/Routes";
 import { BackHandler, StyleSheet, useWindowDimensions } from "react-native";
 import { fullSize } from "./src/Styles/DefaultsStyles";
-
+import * as FileSystem from "expo-file-system";
+import { HabitoT } from "./src/Types/Types";
+import * as Crypto from "expo-crypto";
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [load, setLoad] = useState(false);
+  const [habitos, setHabitos] = useState<HabitoT[]>([]);
+
   const [requireAuthetication, setRequireAuthentication] = useState(false);
   const [auth, setAuth] = useState(false);
   const { width: widthScreen, height: heightScreen } = useWindowDimensions();
@@ -46,6 +50,7 @@ export default function App() {
 
   useEffect(() => {
     checkAuthentication();
+    fileSystemFetchData();
   }, []);
 
   const checkAuthentication = useCallback(async () => {
@@ -79,6 +84,70 @@ export default function App() {
     },
   });
 
+  const habitosTest = [
+    {
+      uuid: Crypto.randomUUID(),
+      title: "Habito 1",
+      description: "Descrição do habito 1",
+      createdDate: new Date(),
+      days: [1, 3, 5],
+    },
+    {
+      uuid: Crypto.randomUUID(),
+      title: "Habito 2",
+      description: "Descrição do habito 2",
+      createdDate: new Date(),
+      days: [0, 6],
+    },
+    {
+      uuid: Crypto.randomUUID(),
+      title: "Habito 3",
+      description: "Descrição do habito 3",
+      createdDate: new Date(),
+      days: [2, 4],
+    },
+  ];
+
+  async function fileSystemFetchData() {
+    const habitusDirectory = FileSystem.documentDirectory ?? "" + "habitos/";
+
+    await FileSystem.makeDirectoryAsync(habitusDirectory, {
+      intermediates: true,
+    });
+
+    if (habitosTest) {
+      // const promises = habitosTest.map((habito, index) => {
+      //   const nameFile = habito.uuid;
+      //   const fileUri = habitusDirectory + nameFile;
+      //   return FileSystem.writeAsStringAsync(fileUri, JSON.stringify(habito));
+      // });
+      // const results = await Promise.allSettled(promises);
+      // results.flatMap((r) => console.log(r));
+    }
+
+    try {
+      const files = await FileSystem.readDirectoryAsync(habitusDirectory);
+
+      const readFilesPromises = files.map((file) => {
+        return FileSystem.readAsStringAsync(`${habitusDirectory}/${file}`);
+      });
+
+      const resultsReadFiles = await Promise.allSettled(readFilesPromises);
+
+      const objectsHabito: HabitoT[] = [];
+      resultsReadFiles.flatMap((result) => {
+        if (result.status === "fulfilled") {
+          if (result.value.includes("uuid")) {
+            objectsHabito.push(JSON.parse(result.value));
+          }
+        }
+      });
+      setHabitos(objectsHabito);
+    } catch (e) {
+      console.log(`Erro em fileSystemFetchData. Erro: ${e}`);
+    }
+  }
+
   return (
     <GestureHandlerRootView style={appStyleContainer}>
       <AppContext.Provider
@@ -98,6 +167,8 @@ export default function App() {
           heightScreen,
           perfilPhotoUri,
           setPerfilPhotoUri,
+          habitos,
+          setHabitos,
         }}
       >
         <Routes />

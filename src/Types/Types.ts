@@ -52,3 +52,14 @@ export type ModalPickerPhotoProps = {
   isOpen: boolean;
   close: () => void;
 };
+
+
+
+
+export type HabitoT = {
+  uuid: string;
+  title: string;
+  description: string;
+  createdDate: Date;
+  days: number[];
+}
