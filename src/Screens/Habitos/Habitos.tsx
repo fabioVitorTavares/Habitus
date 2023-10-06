@@ -1,17 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import {
   FlatList,
-  ListRenderItem,
   SafeAreaView,
   Text,
-  View,
+  View
 } from "react-native";
 import Calendar from "../../Components/Calendar/Calendar";
-import ItemHabito from "../../Components/ItemHabito/ItemHabito";
 import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
-import { styles } from "./HabitosStyles";
 import { AppContext } from "../../Context/AppContext";
 import { HabitoT } from "../../Types/Types";
+import { styles } from "./HabitosStyles";
 
 function Separator() {
   return <View style={{ height: 10 }} />;
@@ -35,22 +33,24 @@ export default function Habitos() {
   function renderItem({ item: { title, description } }: { item: HabitoT }) {
     return (
       <View>
-        <Text>{title}</Text>
-        <Text>{description}</Text>
+        <Text>{title ?? "-"}</Text>
+        <Text>{description ?? "-"}</Text>
       </View>
     );
   }
+  console.log(habitosOfCurrentDate)
 
   return (
     <ScreenContainer>
       <View style={styles.screen}>
         <Calendar currentDate={currentDate} setCurrentDate={setCurrentDate} />
-        {habitos?.length && (
+        {habitosOfCurrentDate && habitosOfCurrentDate?.length > 0 && (
           <SafeAreaView style={styles.flatList}>
             <FlatList
               data={habitosOfCurrentDate}
               renderItem={renderItem}
               ItemSeparatorComponent={() => <Separator />}
+              keyExtractor={(item) => item?.uuid}
             />
           </SafeAreaView>
         )}
