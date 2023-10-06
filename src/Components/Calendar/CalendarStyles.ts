@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     width: '90%',
     height: 400,
-    borderWidth: 1,
   },
   animatedTouchable: {
     ...fullSize,

@@ -30,15 +30,17 @@ export default function Habitos() {
     }
   }, [currentDate]);
 
+  const iconeTemp = <View style={styles.iconeTemp} />
+
   function renderItem({ item: { title, description } }: { item: HabitoT }) {
     return (
-      <View>
-        <Text>{title ?? "-"}</Text>
-        <Text>{description ?? "-"}</Text>
+      <View style={styles.itemListContainer}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.description}>{description}</Text>
+        {iconeTemp}
       </View>
     );
   }
-  console.log(habitosOfCurrentDate)
 
   return (
     <ScreenContainer>
