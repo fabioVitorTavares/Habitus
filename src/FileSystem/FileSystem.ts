@@ -24,6 +24,9 @@ export async function getHabitos() {
   }
 }
 
+
+
+
 export async function saveHabito(habito:HabitoT){  
   try {
     const habitoSaving = { ...habito, uuid: Crypto.randomUUID() };
