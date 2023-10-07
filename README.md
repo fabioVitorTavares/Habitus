@@ -1,8 +1,4 @@
 
-
-
-
-
 # Habitus
 
 # Mobile 
