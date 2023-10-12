@@ -18,5 +18,4 @@ Disponível para plataforma android
 
 ## toggle button
 
-
 ## Screen configurations
