@@ -7,6 +7,7 @@
 #mobile-security
 
 App de gerênciamento de hábitos
+
 Disponível para plataforma android
 
 # To do develope
@@ -16,3 +17,6 @@ Disponível para plataforma android
 ## Tela Configs - ok
 
 ## toggle button
+
+
+## Screen configurations
