@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
     ...fullSize,
     display: 'flex',
     justifyContent: 'space-between',
+    paddingBottom: 40,
   }, 
   cardsContainer: {
     height: '30%',

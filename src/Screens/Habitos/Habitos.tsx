@@ -1,10 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import {
-  FlatList,
-  SafeAreaView,
-  Text,
-  View
-} from "react-native";
+import { FlatList, SafeAreaView, Text, View } from "react-native";
 import Calendar from "../../Components/Calendar/Calendar";
 import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
 import { AppContext } from "../../Context/AppContext";
@@ -30,7 +25,7 @@ export default function Habitos() {
     }
   }, [currentDate]);
 
-  const iconeTemp = <View style={styles.iconeTemp} />
+  const iconeTemp = <View style={styles.iconeTemp} />;
 
   function renderItem({ item: { title, description } }: { item: HabitoT }) {
     return (
@@ -41,7 +36,6 @@ export default function Habitos() {
       </View>
     );
   }
-
   return (
     <ScreenContainer>
       <View style={styles.screen}>

@@ -142,7 +142,9 @@ export default function AddNewHabito() {
       createdDate: new Date(),
       days: getDays(),
     });
-    setHabitos(newsHabitos);
+    if (setHabitos && newsHabitos) {
+      setHabitos(newsHabitos);
+    }
   }
 
   return (

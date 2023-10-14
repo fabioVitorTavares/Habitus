@@ -1,13 +1,4 @@
-import {
-  View,
-  Text,
-  FlatList,
-  SafeAreaView,
-  Image,
-  TouchableOpacity,
-  Pressable,
-  BackHandler,
-} from "react-native";
+import { View, BackHandler } from "react-native";
 import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
 import CardHome from "../../Components/CardHome/CardHome";
 import { styles } from "./HomeStyles";
@@ -16,17 +7,9 @@ import {
   IconConfigs,
   IconHabitos,
 } from "../../Icons/Incons";
-import {
-  CardPropsType,
-  RendeItensCardHomeProp,
-  RenderItemListHabitosProps,
-  SizeType,
-} from "../../Types/Types";
+import { CardPropsType } from "../../Types/Types";
 
-import { useContext, useEffect, useState } from "react";
-import { AppContext } from "../../Context/AppContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Device from "expo-device";
+import { useEffect } from "react";
 import CardResume from "../../Components/CardResume/CardResume";
 import UserAvatar from "../../Components/UserAvatar/UserAvatar";
 import { useNavigation } from "@react-navigation/native";
