@@ -7,12 +7,10 @@ import {
   Modal,
   Button,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
 import { styles } from "./AddNewHabitoStyles";
 import { AppContext } from "../../Context/AppContext";
 import CheckBox from "../../Components/CheckBox/CheckBox";
 import ModalAddCategory from "../../Components/ModalAddCategory/ModalAddCategory";
-import { Entypo as Icon } from "@expo/vector-icons";
 import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
 import { saveHabito } from "../../FileSystem/FileSystem";
 
@@ -27,7 +25,7 @@ export default function AddNewHabito() {
   const [checkAllDays, setCheckAllDays] = useState(false);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-
+  const [modalAddCategoryIsOpen, setModalAddCategoryIsOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
   const checkDays = [
@@ -72,45 +70,6 @@ export default function AddNewHabito() {
     setCheckAllDays(!checkDays.find((day) => day.check[0] === false));
   }, [checkDays]);
 
-  const [modalAddCategoryIsOpen, setModalAddCategoryIsOpen] = useState(false);
-
-  const PickerCategory = () => {
-    return (
-      <View style={styles.pickerContainer}>
-        {categories?.length ? (
-          <>
-            <Picker
-              selectedValue={categorySelected}
-              style={styles.picker}
-              onValueChange={(value, index) =>
-                setCategorySelected && setCategorySelected(value)
-              }
-            >
-              {categories &&
-                categories.map((category, index) => (
-                  <Picker.Item
-                    key={`${category}${index}`}
-                    label={category}
-                    value={category}
-                  />
-                ))}
-            </Picker>
-            <TouchableOpacity onPress={() => setModalAddCategoryIsOpen(true)}>
-              <Icon name="add-to-list" size={40} />
-            </TouchableOpacity>
-          </>
-        ) : (
-          <TouchableOpacity
-            style={styles.addCategory}
-            onPress={() => setModalAddCategoryIsOpen(true)}
-          >
-            <Text>Adicionar categoria</Text>
-          </TouchableOpacity>
-        )}
-      </View>
-    );
-  };
-
   // uuid: Crypto.randomUUID(),
   // title: "Habito 3",
   // description: "Descrição do habito 3",
@@ -147,53 +106,70 @@ export default function AddNewHabito() {
     }
   }
 
+  function PickerCategory() {
+    return (
+      <View style={styles.pickerContainer}>
+        <TouchableOpacity
+          style={styles.addCategory}
+          onPress={() => setModalAddCategoryIsOpen(true)}
+        >
+          {!!categorySelected && <Text>{categorySelected}</Text>}
+          {!categorySelected && (
+            <Text>
+              {!!categories?.length ? "Selecionar" : "Adicionar"} categoria
+            </Text>
+          )}
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   return (
     <ScreenContainer>
-      <View style={styles.screen}>
+      <>
+        <View style={styles.screen}>
+          <View style={styles.containerInputs}>
+            <Text style={styles.text}>Categoria:</Text>
+            <PickerCategory />
+          </View>
+          <View style={styles.containerInputs}>
+            <Text style={styles.text}>Novo hábito:</Text>
+            <TextInput style={styles.textInput} onChangeText={setTitle} />
+          </View>
+          <View style={styles.containerInputs}>
+            <Text style={styles.text}>Descrição:</Text>
+            <TextInput style={styles.textInput} onChangeText={setDescription} />
+          </View>
+          <View style={styles.containerInputs}>
+            <Text style={styles.text}>Dias:</Text>
+            <Text style={styles.text}>Todos</Text>
+            <CheckBox
+              checked={checkAllDays}
+              setChecked={() => pressCheckAllDays()}
+            />
+            <View style={styles.daysWeek}>
+              {checkDays.map((day, index) => {
+                return (
+                  <View key={index}>
+                    <Text style={styles.text}>{day.name}</Text>
+                    <CheckBox
+                      checked={day.check[0]}
+                      setChecked={() => day.check[1]((prev) => !prev)}
+                    />
+                  </View>
+                );
+              })}
+            </View>
+            <View>
+              <Button title="Salvar" onPress={onPressSalvar} />
+            </View>
+          </View>
+        </View>
         <ModalAddCategory
           open={modalAddCategoryIsOpen}
           onClose={() => setModalAddCategoryIsOpen(false)}
         />
-        <View style={styles.containerInputs}>
-          <Text style={styles.text}>Categoria:</Text>
-          <PickerCategory />
-        </View>
-        <View style={styles.containerInputs}>
-          <Text style={styles.text}>Novo hábito:</Text>
-          <TextInput style={styles.textInput} onChangeText={setTitle} />
-        </View>
-        <View style={styles.containerInputs}>
-          <Text style={styles.text}>Breve descrição:</Text>
-          <TextInput style={styles.textInput} onChangeText={setDescription} />
-        </View>
-        <TouchableOpacity onPress={() => setModalOpen(true)}>
-          <Text>Open</Text>
-        </TouchableOpacity>
-        <View style={styles.containerInputs}>
-          <Text style={styles.text}>Dias:</Text>
-          <Text style={styles.text}>Todos</Text>
-          <CheckBox
-            checked={checkAllDays}
-            setChecked={() => pressCheckAllDays()}
-          />
-          <View style={styles.daysWeek}>
-            {checkDays.map((day, index) => {
-              return (
-                <View key={index}>
-                  <Text style={styles.text}>{day.name}</Text>
-                  <CheckBox
-                    checked={day.check[0]}
-                    setChecked={() => day.check[1]((prev) => !prev)}
-                  />
-                </View>
-              );
-            })}
-          </View>
-          <View>
-            <Button title="Salvar" onPress={onPressSalvar} />
-          </View>
-        </View>
-      </View>
+      </>
     </ScreenContainer>
   );
 }

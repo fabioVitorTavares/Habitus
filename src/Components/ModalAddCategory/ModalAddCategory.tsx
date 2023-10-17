@@ -38,30 +38,39 @@ export default function ModalAddCategory({
   };
 
   return (
-    <Modal animationType="slide" transparent={true} visible={open}>
-      <TouchableOpacity onPress={() => handlePressClose()}>
-        <View style={styles.modalContainer}>
-          <View
-            style={styles.modalContent}
-            onStartShouldSetResponder={(event) => true}
-            onTouchEnd={(e) => e.stopPropagation()}
-          >
-            <View style={styles.containerInputs}>
-              <Text style={styles.text}>Nova categoria:</Text>
-              <TextInput
-                placeholder="categoria"
-                style={styles.textInput}
-                value={newCategory}
-                onChangeText={(text) => setNewCategory(text)}
-              />
-            </View>
-            <View style={styles.buttonsContainer}>
-              <Button title="Cancelar" onPress={handlePressClose} />
-              <Button title="Adicionar" onPress={handlePressAdd} />
+    open && (
+      <View
+        style={{
+          position: "absolute",
+          backgroundColor: "#0000",
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        <TouchableOpacity onPress={() => handlePressClose()}>
+          <View style={styles.modalContainer}>
+            <View
+              style={styles.modalContent}
+              onStartShouldSetResponder={(event) => true}
+              onTouchEnd={(e) => e.stopPropagation()}
+            >
+              <View style={styles.containerInputs}>
+                <Text style={styles.text}>Nova categoria:</Text>
+                <TextInput
+                  placeholder="categoria"
+                  style={styles.textInput}
+                  value={newCategory}
+                  onChangeText={(text) => setNewCategory(text)}
+                />
+              </View>
+              <View style={styles.buttonsContainer}>
+                <Button title="Cancelar" onPress={handlePressClose} />
+                <Button title="Adicionar" onPress={handlePressAdd} />
+              </View>
             </View>
           </View>
-        </View>
-      </TouchableOpacity>
-    </Modal>
+        </TouchableOpacity>
+      </View>
+    )
   );
 }

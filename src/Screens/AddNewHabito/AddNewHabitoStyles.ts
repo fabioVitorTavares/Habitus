@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     height: "100%",
-    paddingTop: 100,
+    paddingTop: 50,
   },
   text: {
     fontSize: 16,
@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
   },
   containerInputs: {
     width: "100%",
-    padding: 20
+    padding: 10
   },
   daysWeek: {
     width: "100%",

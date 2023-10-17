@@ -28,7 +28,7 @@ export default function App() {
   const [perfilPhotoUri, setPerfilPhotoUri] = useState<string>("");
 
   const [appBackgroundColor, setAppBackgroundColor] = useState("#FFF");
-  const [categories, setCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState<string[]>(["c1", "c2", "c3"]);
   const [categorySelected, setCategorySelected] = useState<string>(
     categories[0]
   );
