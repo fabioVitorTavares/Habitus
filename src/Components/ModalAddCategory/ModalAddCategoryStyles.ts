@@ -11,9 +11,10 @@ export const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "#FFF",
     width: "90%",
-    height: 200,
+    height: 400,
     borderRadius: 10,
     zIndex: 2,
+    padding: 20,
   },
   text: {
     fontSize: 16,
@@ -21,14 +22,14 @@ export const styles = StyleSheet.create({
   textInput: {
     borderWidth: 1,
     borderColor: "#0005",
-    paddingLeft: 20,
     height: 50,
     borderRadius: 5,
     fontSize: 16,
+    paddingLeft: 10,
   },
   containerInputs: {
     width: "100%",
-    padding: 20
+    marginBottom: 20
   },
   buttonsContainer: {
     width: "100%",
@@ -37,6 +38,16 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-
+  },
+  itensContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 10,
+    backgroundColor: 'red'
+    
+  },
+  categoryItem: {
+    paddingLeft: 10
   }
+
 });

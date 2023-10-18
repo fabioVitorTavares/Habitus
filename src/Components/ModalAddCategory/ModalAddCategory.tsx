@@ -1,7 +1,9 @@
 import { useContext, useState } from "react";
 import {
   Button,
+  FlatList,
   Modal,
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -22,20 +24,23 @@ export default function ModalAddCategory({
   const { categories, setCategories } = useContext(AppContext);
   const [newCategory, setNewCategory] = useState("");
 
-  const handlePressAdd = () => {
-    if (!!newCategory) {
-      if (setCategories && categories) {
-        setCategories([...categories, newCategory]);
-        setNewCategory("");
-      }
-    }
-    onClose();
-  };
+  const dataFlatList = categories?.map((category, index) => {
+    return (
+      <TouchableOpacity key={index} style={styles.categoryItem}>
+        <Text>{category}</Text>
+      </TouchableOpacity>
+    );
+  });
 
-  const handlePressClose = () => {
-    setNewCategory("");
-    onClose();
-  };
+  dataFlatList?.unshift(
+    <TextInput
+      key={`firstItemFlatList`}
+      placeholder="Nova categoria"
+      style={styles.textInput}
+      value={newCategory}
+      onChangeText={(text) => setNewCategory(text)}
+    />
+  );
 
   return (
     open && (
@@ -47,7 +52,7 @@ export default function ModalAddCategory({
           height: "100%",
         }}
       >
-        <TouchableOpacity onPress={() => handlePressClose()}>
+        <TouchableOpacity onPress={() => onClose()}>
           <View style={styles.modalContainer}>
             <View
               style={styles.modalContent}
@@ -55,18 +60,15 @@ export default function ModalAddCategory({
               onTouchEnd={(e) => e.stopPropagation()}
             >
               <View style={styles.containerInputs}>
-                <Text style={styles.text}>Nova categoria:</Text>
-                <TextInput
-                  placeholder="categoria"
-                  style={styles.textInput}
-                  value={newCategory}
-                  onChangeText={(text) => setNewCategory(text)}
-                />
+                <Text style={styles.text}>
+                  Selecione ou adicione uma nova categoria
+                </Text>
               </View>
-              <View style={styles.buttonsContainer}>
-                <Button title="Cancelar" onPress={handlePressClose} />
-                <Button title="Adicionar" onPress={handlePressAdd} />
-              </View>
+              <FlatList
+                data={dataFlatList}
+                renderItem={({ item }) => item}
+                ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+              />
             </View>
           </View>
         </TouchableOpacity>
