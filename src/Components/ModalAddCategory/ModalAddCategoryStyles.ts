@@ -48,6 +48,10 @@ export const styles = StyleSheet.create({
   },
   categoryItem: {
     paddingLeft: 10
+  },
+  iconPlus: {
+    position: 'absolute',
+    right: 20,
+    top: 8
   }
-
 });

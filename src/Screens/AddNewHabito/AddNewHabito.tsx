@@ -15,18 +15,13 @@ import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
 import { saveHabito } from "../../FileSystem/FileSystem";
 
 export default function AddNewHabito() {
-  const {
-    setHabitos,
-    categories,
-    setCategories,
-    categorySelected,
-    setCategorySelected,
-  } = useContext(AppContext);
+  const { setHabitos, categories, setCategories } = useContext(AppContext);
   const [checkAllDays, setCheckAllDays] = useState(false);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [modalAddCategoryIsOpen, setModalAddCategoryIsOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [categorySelected, setCategorySelected] = useState<string | null>("");
 
   const checkDays = [
     {
@@ -166,6 +161,7 @@ export default function AddNewHabito() {
           </View>
         </View>
         <ModalAddCategory
+          setCategorySelected={setCategorySelected}
           open={modalAddCategoryIsOpen}
           onClose={() => setModalAddCategoryIsOpen(false)}
         />

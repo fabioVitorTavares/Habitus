@@ -29,21 +29,14 @@ export default function App() {
 
   const [appBackgroundColor, setAppBackgroundColor] = useState("#FFF");
   const [categories, setCategories] = useState<string[]>([
-    "c1",
-    "c2",
-    "c3",
-    "c1",
-    "c2",
-    "c1",
-    "c2",
-    "c1",
-    "c2",
-    "c1",
-    "c2",
-    "c1",
-    "c2",
-    "c1",
-    "c2",
+    "categoria teste 1",
+    "categoria teste 2",
+    "categoria teste 3",
+    "categoria teste 4",
+    "categoria teste 5",
+    "categoria teste 6",
+    "categoria teste 7",
+    "categoria teste 8",
   ]);
   const [categorySelected, setCategorySelected] = useState<string>(
     categories[0]
@@ -157,8 +150,6 @@ export default function App() {
           heightScreen,
           perfilPhotoUri,
           setPerfilPhotoUri,
-          habitos,
-          setHabitos,
         }}
       >
         <Routes />
