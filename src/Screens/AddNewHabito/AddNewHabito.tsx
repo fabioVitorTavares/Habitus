@@ -138,14 +138,27 @@ export default function AddNewHabito() {
           <View style={styles.containerInputs}>
             <Text style={styles.text}>Dias:</Text>
             <Text style={styles.text}>Todos</Text>
-            <CheckBox
-              checked={checkAllDays}
-              setChecked={() => pressCheckAllDays()}
-            />
+            <View
+              style={{
+                width: 50,
+                height: 50,
+              }}
+            >
+              <CheckBox
+                checked={checkAllDays}
+                setChecked={() => pressCheckAllDays()}
+              />
+            </View>
             <View style={styles.daysWeek}>
               {checkDays.map((day, index) => {
                 return (
-                  <View key={index}>
+                  <View
+                    style={{
+                      width: 50,
+                      height: 50,
+                    }}
+                    key={index}
+                  >
                     <Text style={styles.text}>{day.name}</Text>
                     <CheckBox
                       checked={day.check[0]}
