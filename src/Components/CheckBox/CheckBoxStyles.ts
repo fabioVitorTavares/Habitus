@@ -17,7 +17,7 @@ const { checkBoxDefaultStyle } = StyleSheet.create({
 export const { checkBoxChecked, checkBoxUnchecked } = StyleSheet.create({
   checkBoxChecked: {
     ...checkBoxDefaultStyle,
-    backgroundColor: 'red'
+    backgroundColor: '#FFF'
   },
   checkBoxUnchecked: {
     ...checkBoxDefaultStyle,
