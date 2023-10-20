@@ -25,7 +25,7 @@ export default function CheckBox({ checked, setChecked }: CheckBoxProps) {
       strokeLinecap: "round",
       strokeLinejoin: "round",
       strokeWidth: "8",
-      d: "M82 10L40 60l-20-20",
+      d: "M62 20L35 50l-10-20",
       strokeDasharray: 97,
       strokeDashoffset: interpolate(
         pathWidth.value,

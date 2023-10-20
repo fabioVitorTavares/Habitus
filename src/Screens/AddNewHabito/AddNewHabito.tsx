@@ -13,6 +13,7 @@ import CheckBox from "../../Components/CheckBox/CheckBox";
 import ModalAddCategory from "../../Components/ModalAddCategory/ModalAddCategory";
 import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
 import { saveHabito } from "../../FileSystem/FileSystem";
+import WeekDayCheck from "../../Components/WeekDayCheck/WeekDayCheck";
 
 export default function AddNewHabito() {
   const { setHabitos, categories, setCategories } = useContext(AppContext);
@@ -150,25 +151,11 @@ export default function AddNewHabito() {
               />
             </View>
             <View style={styles.daysWeek}>
-              {checkDays.map((day, index) => {
-                return (
-                  <View
-                    style={{
-                      width: 50,
-                      height: 50,
-                    }}
-                    key={index}
-                  >
-                    <Text style={styles.text}>{day.name}</Text>
-                    <CheckBox
-                      checked={day.check[0]}
-                      setChecked={() => day.check[1]((prev) => !prev)}
-                    />
-                  </View>
-                );
+              {checkDays.map((day) => {
+                return <WeekDayCheck key={day?.name} day={day} />;
               })}
             </View>
-            <View>
+            <View style={{ marginTop: 50 }}>
               <Button title="Salvar" onPress={onPressSalvar} />
             </View>
           </View>
