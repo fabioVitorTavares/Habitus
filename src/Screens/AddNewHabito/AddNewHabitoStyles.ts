@@ -50,5 +50,28 @@ export const styles = StyleSheet.create({
   addCategory: {
     ...centerItens,
     ...fullSize,
-  }
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    padding: 10,
+    marginBottom: 20,
+  },
+  buttonGoBack: {
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 4,
+    backgroundColor: 'red'
+  },
+  textButton: {
+    fontSize: 18,
+    color: '#FFF'
+  },
+  buttonSave: {
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 4,
+    backgroundColor: 'blue'
+  },
 });

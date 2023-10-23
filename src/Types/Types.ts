@@ -63,3 +63,7 @@ export type HabitoT = {
   createdDate: Date;
   days: number[];
 }
+
+export type ComponentType = {
+  children: JSX.Element;
+};

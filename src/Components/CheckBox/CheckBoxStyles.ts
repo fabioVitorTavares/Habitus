@@ -7,7 +7,6 @@ const { checkBoxDefaultStyle } = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     overflow: 'visible',
-    zIndex: 2,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

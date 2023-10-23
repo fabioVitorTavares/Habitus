@@ -33,7 +33,7 @@ export default function ModalAddCategory({
   const dataFlatList = categories?.sort(fnSort)?.map((category, index) => {
     return (
       <TouchableOpacity
-        key={index}
+        key={category}
         style={{
           ...styles.categoryItem,
           backgroundColor: category === selectedCategory ? "red" : undefined,

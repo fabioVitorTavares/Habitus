@@ -1,12 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Modal,
-  Button,
-} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Modal } from "react-native";
 import { styles } from "./AddNewHabitoStyles";
 import { AppContext } from "../../Context/AppContext";
 import CheckBox from "../../Components/CheckBox/CheckBox";
@@ -14,6 +7,8 @@ import ModalAddCategory from "../../Components/ModalAddCategory/ModalAddCategory
 import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
 import { saveHabito } from "../../FileSystem/FileSystem";
 import WeekDayCheck from "../../Components/WeekDayCheck/WeekDayCheck";
+import { useNavigation } from "@react-navigation/native";
+import Button from "../../Components/Button/Button";
 
 export default function AddNewHabito() {
   const { setHabitos, categories, setCategories } = useContext(AppContext);
@@ -23,6 +18,7 @@ export default function AddNewHabito() {
   const [modalAddCategoryIsOpen, setModalAddCategoryIsOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [categorySelected, setCategorySelected] = useState<string | null>("");
+  const navigation = useNavigation();
 
   const checkDays = [
     {
@@ -120,10 +116,28 @@ export default function AddNewHabito() {
     );
   }
 
+  function goBack() {
+    navigation.goBack();
+  }
+
   return (
     <ScreenContainer>
       <>
         <View style={styles.screen}>
+          <View style={styles.buttonsContainer}>
+            <Button onPress={goBack}>
+              <View style={styles.buttonGoBack}>
+                <Text style={styles.textButton}>Voltar</Text>
+              </View>
+            </Button>
+            <Button onPress={onPressSalvar}>
+              <View style={styles.buttonSave}>
+                <Text style={styles.textButton}>Salvar</Text>
+              </View>
+            </Button>
+
+            {/* <Button title="Salvar" onPress={onPressSalvar} /> */}
+          </View>
           <View style={styles.containerInputs}>
             <Text style={styles.text}>Categoria:</Text>
             <PickerCategory />
@@ -141,8 +155,8 @@ export default function AddNewHabito() {
             <Text style={styles.text}>Todos</Text>
             <View
               style={{
-                width: 50,
-                height: 50,
+                width: 45,
+                height: 70,
               }}
             >
               <CheckBox
@@ -154,9 +168,6 @@ export default function AddNewHabito() {
               {checkDays.map((day) => {
                 return <WeekDayCheck key={day?.name} day={day} />;
               })}
-            </View>
-            <View style={{ marginTop: 50 }}>
-              <Button title="Salvar" onPress={onPressSalvar} />
             </View>
           </View>
         </View>
