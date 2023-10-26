@@ -5,6 +5,7 @@ import ScreenContainer from "../../Components/ScreenContainer/ScreenContainer";
 import { AppContext } from "../../Context/AppContext";
 import { HabitoT } from "../../Types/Types";
 import { styles } from "./HabitosStyles";
+import GoBack from "../../Components/GoBack/GoBack";
 
 function Separator() {
   return <View style={{ height: 10 }} />;
@@ -39,6 +40,7 @@ export default function Habitos() {
   return (
     <ScreenContainer>
       <View style={styles.screen}>
+        <GoBack />
         <Calendar currentDate={currentDate} setCurrentDate={setCurrentDate} />
         {habitosOfCurrentDate && habitosOfCurrentDate?.length > 0 && (
           <SafeAreaView style={styles.flatList}>

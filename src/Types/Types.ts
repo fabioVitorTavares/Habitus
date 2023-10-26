@@ -67,3 +67,11 @@ export type HabitoT = {
 export type ComponentType = {
   children: JSX.Element;
 };
+
+export type TICONS = {
+  [key: string]: JSX.Element;
+};
+
+export type TNamesIcons = {
+  name: 'goBack' | 'lock';
+};

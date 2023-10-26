@@ -6,6 +6,7 @@ import { AppContext } from "../../Context/AppContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
 import Togle from "../../Components/Togle/Togle";
+import GoBack from "../../Components/GoBack/GoBack";
 
 export default function Configs() {
   const isFocused = useIsFocused();
@@ -43,6 +44,7 @@ export default function Configs() {
   return (
     <ScreenContainer>
       <View style={styles.homeContainer}>
+        <GoBack />
         <View style={styles.configOptContainer}>
           <Text>Acesso com senha do aparelho</Text>
           <Togle

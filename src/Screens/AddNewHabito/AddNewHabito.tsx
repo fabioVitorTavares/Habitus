@@ -9,6 +9,7 @@ import { saveHabito } from "../../FileSystem/FileSystem";
 import WeekDayCheck from "../../Components/WeekDayCheck/WeekDayCheck";
 import { useNavigation } from "@react-navigation/native";
 import Button from "../../Components/Button/Button";
+import GoBack from "../../Components/GoBack/GoBack";
 
 export default function AddNewHabito() {
   const { setHabitos, categories, setCategories } = useContext(AppContext);
@@ -18,7 +19,6 @@ export default function AddNewHabito() {
   const [modalAddCategoryIsOpen, setModalAddCategoryIsOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [categorySelected, setCategorySelected] = useState<string | null>("");
-  const navigation = useNavigation();
 
   const checkDays = [
     {
@@ -116,20 +116,12 @@ export default function AddNewHabito() {
     );
   }
 
-  function goBack() {
-    navigation.goBack();
-  }
-
   return (
     <ScreenContainer>
       <>
         <View style={styles.screen}>
+          <GoBack />
           <View style={styles.buttonsContainer}>
-            <Button onPress={goBack}>
-              <View style={styles.buttonGoBack}>
-                <Text style={styles.textButton}>Voltar</Text>
-              </View>
-            </Button>
             <Button onPress={onPressSalvar}>
               <View style={styles.buttonSave}>
                 <Text style={styles.textButton}>Salvar</Text>

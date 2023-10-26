@@ -3,10 +3,9 @@ import { centerItens, fullSize } from "../../Styles/DefaultsStyles";
 
 export const styles = StyleSheet.create({
   homeContainer: {
+    ...centerItens,
     ...fullSize,
-    display: 'flex',
-    paddingTop: 50,
-    paddingHorizontal: 20,
+    position: 'relative',
   },
   configOptContainer: {
     display: 'flex',

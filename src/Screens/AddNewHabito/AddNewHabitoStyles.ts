@@ -3,12 +3,10 @@ import { centerItens, fullSize } from "../../Styles/DefaultsStyles";
 
 export const styles = StyleSheet.create({
   screen: {
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    width: "100%",
-    height: "100%",
-    paddingTop: 50,
+    ...centerItens,
+    ...fullSize,
+    position: 'relative',
+
   },
   text: {
     fontSize: 16,

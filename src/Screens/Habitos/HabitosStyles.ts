@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
   screen: {
     ...centerItens,
     ...fullSize,
+    position: 'relative',
   },
   flatList: {
     width: '100%',   
