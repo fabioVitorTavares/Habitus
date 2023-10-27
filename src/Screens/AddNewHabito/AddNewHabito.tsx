@@ -62,12 +62,6 @@ export default function AddNewHabito() {
     setCheckAllDays(!checkDays.find((day) => day.check[0] === false));
   }, [checkDays]);
 
-  // uuid: Crypto.randomUUID(),
-  // title: "Habito 3",
-  // description: "Descrição do habito 3",
-  // createdDate: new Date(),
-  // days: [2, 4],
-
   function getDays() {
     return checkDays
       .map(({ check }, index) => {
