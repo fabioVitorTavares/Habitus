@@ -50,26 +50,22 @@ export const styles = StyleSheet.create({
     ...fullSize,
   },
   buttonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    position: "absolute",
+    top: 50,
     width: '100%',
-    padding: 10,
-    marginBottom: 20,
-  },
-  buttonGoBack: {
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 4,
-    backgroundColor: 'red'
-  },
+  },  
   textButton: {
     fontSize: 18,
     color: '#FFF'
   },
   buttonSave: {
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 4,
-    backgroundColor: 'blue'
+    ...centerItens,
+    width: 80,
+    height: 40,
+    borderRadius: 8,
+    backgroundColor: 'blue',
+    position: 'absolute',
+    top: 0,
+    right: 10,
   },
 });

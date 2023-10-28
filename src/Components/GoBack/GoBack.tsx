@@ -11,7 +11,7 @@ export default function GoBack() {
     navigation.goBack();
   }
   return (
-    <View style={{ position: "absolute", top: 40, left: 10 }}>
+    <View style={{ position: "absolute", top: 50, left: 10 }}>
       <Button onPress={goBack}>
         <View style={styles.buttonGoBack}>
           <Icon name={"goBack"} />
