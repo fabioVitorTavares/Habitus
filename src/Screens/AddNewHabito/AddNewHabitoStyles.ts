@@ -6,7 +6,6 @@ export const styles = StyleSheet.create({
     ...centerItens,
     ...fullSize,
     position: 'relative',
-
   },
   text: {
     fontSize: 16,
