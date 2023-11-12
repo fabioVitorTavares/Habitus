@@ -10,6 +10,22 @@ import WeekDayCheck from "../../Components/WeekDayCheck/WeekDayCheck";
 import { useNavigation } from "@react-navigation/native";
 import Button from "../../Components/Button/Button";
 import GoBack from "../../Components/GoBack/GoBack";
+import { ToastAlert } from "../../Components/Toast/ToastAlert";
+import Toast from "react-native-toast-message";
+import { TToast, TToastOption } from "../../Types/Types";
+
+const toastOption: TToastOption = {
+  success: {
+    type: "success",
+    text1: "Parabéns!",
+    text2: "Novo hábito adicionado com sucesso!",
+  },
+  error: {
+    type: "error",
+    text1: "Algo está errado!",
+    text2: "Verifique se os campos foram preenchidos corretamente",
+  },
+};
 
 export default function AddNewHabito() {
   const { setHabitos, categories, setCategories } = useContext(AppContext);
@@ -72,24 +88,28 @@ export default function AddNewHabito() {
       })
       .filter((n: number) => !isNaN(n));
   }
+
+  function showToast() {
+    Toast.show(toastOption.error);
+  }
   async function onPressSalvar() {
+    showToast();
     // console.log({
     //   title,
     //   description,
     //   createdDate: new Date(),
     //   days: getDays(),
     // });
-
-    const newsHabitos = await saveHabito({
-      uuid: "",
-      title,
-      description,
-      createdDate: new Date(),
-      days: getDays(),
-    });
-    if (setHabitos && newsHabitos) {
-      setHabitos(newsHabitos);
-    }
+    // const newsHabitos = await saveHabito({
+    //   uuid: "",
+    //   title,
+    //   description,
+    //   createdDate: new Date(),
+    //   days: getDays(),
+    // });
+    // if (setHabitos && newsHabitos) {
+    //   setHabitos(newsHabitos);
+    // }
   }
 
   function PickerCategory() {
@@ -113,6 +133,7 @@ export default function AddNewHabito() {
   return (
     <ScreenContainer>
       <>
+        <ToastAlert />
         <View style={styles.screen}>
           <GoBack />
           <View style={styles.buttonsContainer}>

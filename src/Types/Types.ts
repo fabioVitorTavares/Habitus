@@ -75,3 +75,16 @@ export type TICONS = {
 export type TNamesIcons = {
   name: 'goBack' | 'lock';
 };
+
+
+export type TToast = {
+  type: 'success' | 'error' | 'info';
+  text1: string;
+  text2: string;  
+}
+
+export type TToastOption = {
+  success: TToast;
+  error: TToast;
+  info?: TToast;
+}
