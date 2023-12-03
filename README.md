@@ -7,9 +7,12 @@
 
 
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> d3878c2a1c57191ecdac53288ea96bfed59528da
 # Habitus
 
 # Mobile 
